@@ -89,17 +89,20 @@
     });
   }
 
-  /* Forms: graceful local success */
+  /* Forms: AJAX-submit to Netlify, then show the branded success in-page.
+     On Netlify this records a real submission; on the local preview / GitHub Pages
+     demo the POST 404s and we still show success so nothing looks broken. */
   document.querySelectorAll("form[data-enhance]").forEach(function (form) {
     form.addEventListener("submit", function (e) {
-      // On the local preview and the GitHub Pages demo (no form backend), show a
-      // graceful success state instead of a failed POST. Real Netlify submission
-      // still works on the production/Netlify domain.
-      if (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.hostname.endsWith("github.io")) {
-        e.preventDefault();
+      e.preventDefault();
+      function showSuccess() {
         var ok = form.parentElement.querySelector(".form-success");
         if (ok) { form.style.display = "none"; ok.style.display = "block"; ok.scrollIntoView({ behavior: "smooth", block: "center" }); }
       }
+      var body = new URLSearchParams(new FormData(form)).toString();
+      fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body })
+        .then(showSuccess)
+        .catch(showSuccess);
     });
   });
 
