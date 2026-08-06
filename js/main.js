@@ -92,7 +92,10 @@
   /* Forms: graceful local success */
   document.querySelectorAll("form[data-enhance]").forEach(function (form) {
     form.addEventListener("submit", function (e) {
-      if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+      // On the local preview and the GitHub Pages demo (no form backend), show a
+      // graceful success state instead of a failed POST. Real Netlify submission
+      // still works on the production/Netlify domain.
+      if (location.hostname === "localhost" || location.hostname === "127.0.0.1" || location.hostname.endsWith("github.io")) {
         e.preventDefault();
         var ok = form.parentElement.querySelector(".form-success");
         if (ok) { form.style.display = "none"; ok.style.display = "block"; ok.scrollIntoView({ behavior: "smooth", block: "center" }); }
