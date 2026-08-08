@@ -75,7 +75,7 @@
     update();
   });
 
-  /* Booking bar — no live engine yet: route to enquiry with the chosen dates */
+  /* Booking bar — no live engine yet: route to inquiry with the chosen dates */
   var booking = document.querySelector("[data-booking]");
   if (booking) {
     booking.addEventListener("submit", function (e) {
@@ -106,7 +106,7 @@
     });
   });
 
-  /* Prefill enquiry from booking params */
+  /* Prefill inquiry from booking params */
   var q = new URLSearchParams(location.search);
   ["arrive", "depart", "guests"].forEach(function (k) {
     var el = document.querySelector('[data-prefill="' + k + '"]');
