@@ -109,17 +109,21 @@ h1 { font-size: var(--step-5); }
 h2 { font-size: var(--step-4); }
 h3 { font-size: var(--step-2); }
 p  { text-wrap: pretty; }
+/* Ritz-Carlton-style display: uppercase serif headlines */
+h1, h2 { text-transform: uppercase; letter-spacing: 0.045em; line-height: 1.12; font-weight: 400; }
 
 .serif { font-family: var(--serif); }
 .italic { font-style: italic; }
 .display { font-family: var(--serif); font-weight: 300; letter-spacing: 0.01em; }
 
+/* Ritz-Carlton-style italic serif eyebrow */
 .eyebrow {
-  font-family: var(--sans);
-  font-size: var(--step--2);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: var(--step-1);
   font-weight: 400;
-  letter-spacing: 0.42em;
-  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  text-transform: none;
   color: var(--gold-deep);
   display: inline-block;
 }
@@ -336,7 +340,7 @@ body.menu-open .nav-mobile { opacity: 1; visibility: visible; transform: scale(1
 @media (min-width: 960px) { .feature { grid-template-columns: 1fr 1fr; gap: clamp(3rem,6vw,7rem); } .feature.reverse .feature__media { order: 2; } }
 .feature__media { position: relative; }
 .feature__media img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
-.feature__media.tall img { aspect-ratio: 3/4; }
+.feature__media.tall img { aspect-ratio: 3/4; border-radius: clamp(140px, 26vw, 300px) clamp(140px, 26vw, 300px) 0 0; }
 .feature__media.wide img { aspect-ratio: 5/4; }
 .feature__media figcaption { font-family: var(--sans); font-size: var(--step--2); letter-spacing: .22em; text-transform: uppercase; color: var(--ink-mute); margin-top: 1rem; }
 .feature__body .eyebrow { margin-bottom: var(--space-s); }
