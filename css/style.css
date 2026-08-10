@@ -544,3 +544,28 @@ body.menu-open .nav-mobile { opacity: 1; visibility: visible; transform: scale(1
 .pkg-list { margin-top: 1.2rem; display: grid; gap: .7rem; }
 .pkg-list li { position: relative; padding-left: 1.3rem; font-size: var(--step--1); color: var(--ink-soft); line-height: 1.5; }
 .pkg-list li::before { content: ""; position: absolute; left: 0; top: .62em; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
+
+/* ---- Mobile polish ---------------------------------------- */
+@media (max-width: 900px) {
+  h1, h2 { letter-spacing: 0.03em; }
+}
+@media (max-width: 640px) {
+  /* Hero: stack content + booking bar in flow so nothing clips */
+  .hero { display: block; min-height: 90svh; }
+  .hero__inner { position: relative; z-index: 2; width: min(100% - 2.5rem, 40rem); margin-inline: auto;
+    padding-top: 7.5rem; padding-bottom: 0; text-align: center; }
+  .hero h1 { font-size: clamp(2.4rem, 11vw, 3.4rem); }
+  .hero__sub { font-size: var(--step-0); }
+  .hero__actions { justify-content: center; }
+  .booking { position: static; transform: none; left: auto; bottom: auto;
+    width: min(100% - 2rem, 40rem); margin: 1.4rem auto 1.6rem; }
+  /* Interior heroes + headings scale down */
+  .page-hero h1 { font-size: clamp(2.2rem, 9vw, 3rem); }
+  .page-hero .body-lead, .hero__sub { font-size: var(--step-0); }
+  h2 { font-size: clamp(1.9rem, 8vw, 2.7rem); }
+  h3 { font-size: clamp(1.35rem, 6vw, 1.7rem); }
+  .section { padding-block: clamp(2.8rem, 10vw, 4rem); }
+  .feature__media.tall img { border-radius: clamp(90px, 30vw, 180px) clamp(90px, 30vw, 180px) 0 0; }
+  .btn { padding: 1em 1.5em; letter-spacing: 0.16em; }
+  .lead { font-size: var(--step-1); }
+}
