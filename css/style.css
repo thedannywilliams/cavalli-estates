@@ -531,3 +531,16 @@ body.menu-open .nav-mobile { opacity: 1; visibility: visible; transform: scale(1
 .product__buy .shopify-buy__btn { width: 100%; }
 .shop-banner { border: 1px solid var(--line-gold); background: color-mix(in srgb, var(--gold) 6%, transparent); padding: var(--space-m); text-align: center; }
 .shop-banner p { max-width: 60ch; margin-inline: auto; color: var(--ink-soft); font-size: var(--step--1); }
+
+/* ---- Retirement packages ---------------------------------- */
+.pkg-grid { display: grid; gap: clamp(1rem, 2vw, 1.6rem); grid-template-columns: 1fr; }
+@media (min-width: 700px) { .pkg-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1080px) { .pkg-grid { grid-template-columns: repeat(3, 1fr); } }
+.pkg { border: 1px solid var(--hair); background: var(--ivory); padding: clamp(1.6rem, 2.5vw, 2.3rem); display: flex; flex-direction: column; position: relative; transition: box-shadow .5s var(--ease), transform .5s var(--ease); }
+.pkg:hover { box-shadow: var(--shadow-soft); }
+.pkg.feature-card { border-color: var(--line-gold); background: color-mix(in srgb, var(--gold) 6%, transparent); }
+.pkg h3 { font-family: var(--serif); font-weight: 400; font-size: var(--step-2); text-transform: uppercase; letter-spacing: .03em; }
+.pkg__tag { align-self: flex-start; font-family: var(--sans); font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--gold-deep); border: 1px solid var(--line-gold); padding: .35em .8em; margin-bottom: .9rem; }
+.pkg-list { margin-top: 1.2rem; display: grid; gap: .7rem; }
+.pkg-list li { position: relative; padding-left: 1.3rem; font-size: var(--step--1); color: var(--ink-soft); line-height: 1.5; }
+.pkg-list li::before { content: ""; position: absolute; left: 0; top: .62em; width: 5px; height: 5px; border-radius: 50%; background: var(--gold); }
