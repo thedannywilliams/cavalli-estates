@@ -109,8 +109,8 @@ h1 { font-size: var(--step-5); }
 h2 { font-size: var(--step-4); }
 h3 { font-size: var(--step-2); }
 p  { text-wrap: pretty; }
-/* Ritz-Carlton-style display: uppercase serif headlines */
-h1, h2 { text-transform: uppercase; letter-spacing: 0.045em; line-height: 1.12; font-weight: 400; }
+/* Ritz-Carlton-style display: uppercase serif headlines — light & airy */
+h1, h2 { text-transform: uppercase; letter-spacing: 0.07em; line-height: 1.18; font-weight: 300; }
 
 .serif { font-family: var(--serif); }
 .italic { font-style: italic; }
