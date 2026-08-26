@@ -569,3 +569,15 @@ body.menu-open .nav-mobile { opacity: 1; visibility: visible; transform: scale(1
   .btn { padding: 1em 1.5em; letter-spacing: 0.16em; }
   .lead { font-size: var(--step-1); }
 }
+
+/* ---- Per-home availability check -------------------------- */
+.avail-card { display: grid; gap: 1.2rem; grid-template-columns: 1fr 1fr auto; align-items: end; max-width: 640px; margin-inline: auto; }
+@media (max-width: 600px) { .avail-card { grid-template-columns: 1fr 1fr; } .avail-card .btn { grid-column: 1 / -1; width: 100%; justify-content: center; } }
+.avail-field { display: grid; gap: .4rem; }
+.avail-field label { font-family: var(--sans); font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-mute); }
+.avail-field input { font: inherit; font-weight: 300; color: var(--char); background: transparent; border: 0; border-bottom: 1px solid var(--hair); border-radius: 0; padding: .6em 0; }
+.avail-field input:focus { outline: none; border-color: var(--gold); }
+.avail-result { max-width: 640px; margin: var(--space-m) auto 0; text-align: center; font-family: var(--sans); font-size: var(--step--1); color: var(--ink-soft); padding: 1.1rem 1.3rem; border: 1px solid var(--hair); }
+.avail-result.open { border-color: color-mix(in srgb, var(--sage) 60%, transparent); background: color-mix(in srgb, var(--sage) 10%, transparent); }
+.avail-result.busy { border-color: var(--line-gold); background: color-mix(in srgb, var(--gold) 8%, transparent); }
+.avail-result .cta-row { justify-content: center; margin-top: 1rem; }

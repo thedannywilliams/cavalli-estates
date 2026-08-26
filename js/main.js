@@ -146,4 +146,56 @@
   });
 
   document.querySelectorAll("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
+
+  /* Per-home availability check (residence pages) — validates against that
+     listing's Airbnb calendar via /.netlify/functions/availability. */
+  var availForms = document.querySelectorAll("[data-availability]");
+  if (availForms.length) {
+    var availPromise = null;
+    function getAvail() {
+      if (!availPromise) availPromise = fetch("/.netlify/functions/availability").then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+      return availPromise;
+    }
+    availForms.forEach(function (form) {
+      var key = form.getAttribute("data-availability");
+      var airbnb = form.getAttribute("data-airbnb") || "#";
+      var arrive = form.querySelector('[name="arrive"]');
+      var depart = form.querySelector('[name="depart"]');
+      var result = form.parentElement.querySelector("[data-avail-result]");
+      var todayISO = new Date().toISOString().slice(0, 10);
+      [arrive, depart].forEach(function (i) { if (i) i.min = todayISO; });
+
+      function show(msg, cls, ctas) {
+        if (!result) return;
+        result.className = "avail-result " + (cls || "");
+        result.innerHTML = "<p>" + msg + "</p>" + (ctas ? '<div class="cta-row">' + ctas + "</div>" : "");
+        result.hidden = false;
+        result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        if (!arrive.value || !depart.value || depart.value <= arrive.value) {
+          show("Please choose an arrival date and a later departure date.", "", "");
+          return;
+        }
+        var q = "?arrive=" + arrive.value + "&depart=" + depart.value;
+        getAvail().then(function (j) {
+          var busy = (j && j.listings && j.listings[key]) ? new Set(j.listings[key]) : new Set();
+          var days = [], d = new Date(arrive.value), end = new Date(depart.value);
+          for (; d < end; d.setUTCDate(d.getUTCDate() + 1)) days.push(d.toISOString().slice(0, 10));
+          var conflict = days.some(function (x) { return busy.has(x); });
+          if (!j || !j.configured) {
+            show("Send us your dates and we’ll confirm availability right away.", "open",
+              '<a class="btn gold" href="contact.html' + q + '"><span>Inquire</span></a> <a class="btn outline" href="' + airbnb + '" target="_blank" rel="noopener"><span>Book on Airbnb</span></a>');
+          } else if (conflict) {
+            show("Those dates are booked. Try different dates, or send an inquiry and we’ll help you find a stay.", "busy",
+              '<a class="btn gold" href="contact.html' + q + '"><span>Inquire</span></a>');
+          } else {
+            show("Good news — those dates look open. Reserve now to lock them in.", "open",
+              '<a class="btn gold" href="' + airbnb + '" target="_blank" rel="noopener"><span>Book on Airbnb</span></a> <a class="btn outline" href="contact.html' + q + '"><span>Inquire Directly</span></a>');
+          }
+        });
+      });
+    });
+  }
 })();
