@@ -1,0 +1,7 @@
+# Cavalli Estates — static site + serverless functions
+[build]
+  publish = "."
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"

@@ -75,16 +75,48 @@
     update();
   });
 
-  /* Booking bar — no live engine yet: route to inquiry with the chosen dates */
+  /* Booking bar — tied to Airbnb availability via /.netlify/functions/availability.
+     Unavailable (fully booked) dates are flagged; dates default to today+. Until the
+     client's Airbnb iCal URLs are set in Netlify env vars, availability is unrestricted. */
   var booking = document.querySelector("[data-booking]");
   if (booking) {
+    var arrive = booking.querySelector('[name="arrive"]');
+    var depart = booking.querySelector('[name="depart"]');
+    var guests = booking.querySelector('[name="guests"]');
+    var todayISO = new Date().toISOString().slice(0, 10);
+    [arrive, depart].forEach(function (i) { if (i) i.min = todayISO; });
+
+    var fullyBooked = null;
+    fetch("/.netlify/functions/availability")
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { if (j && j.fullyBooked) fullyBooked = new Set(j.fullyBooked); })
+      .catch(function () {});
+
+    var note = document.createElement("p");
+    note.style.cssText = "display:none;margin:.7rem auto 0;text-align:center;font-family:var(--sans);font-size:.8rem;color:#FAF7F0;background:rgba(20,17,14,.6);padding:.55rem 1rem;max-width:40rem;";
+    booking.parentElement.appendChild(note);
+
+    function rangeDates(a, b) {
+      var out = [], d = new Date(a), end = new Date(b);
+      for (; d < end; d.setUTCDate(d.getUTCDate() + 1)) out.push(d.toISOString().slice(0, 10));
+      return out;
+    }
+
     booking.addEventListener("submit", function (e) {
       e.preventDefault();
+      note.style.display = "none";
+      if (fullyBooked && fullyBooked.size && arrive.value && depart.value) {
+        var conflict = rangeDates(arrive.value, depart.value).some(function (d) { return fullyBooked.has(d); });
+        if (conflict) {
+          note.textContent = "Some of those nights are already booked. Please choose other dates, or send an inquiry and we'll help you find a stay.";
+          note.style.display = "block";
+          return;
+        }
+      }
       var params = new URLSearchParams();
-      var a = booking.querySelector('[name="arrive"]'); var d = booking.querySelector('[name="depart"]'); var g = booking.querySelector('[name="guests"]');
-      if (a && a.value) params.set("arrive", a.value);
-      if (d && d.value) params.set("depart", d.value);
-      if (g && g.value) params.set("guests", g.value);
+      if (arrive && arrive.value) params.set("arrive", arrive.value);
+      if (depart && depart.value) params.set("depart", depart.value);
+      if (guests && guests.value) params.set("guests", guests.value);
       window.location.href = "contact.html" + (params.toString() ? "?" + params.toString() : "");
     });
   }
