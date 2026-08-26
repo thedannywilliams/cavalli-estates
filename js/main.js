@@ -117,7 +117,8 @@
       if (arrive && arrive.value) params.set("arrive", arrive.value);
       if (depart && depart.value) params.set("depart", depart.value);
       if (guests && guests.value) params.set("guests", guests.value);
-      window.location.href = "contact.html" + (params.toString() ? "?" + params.toString() : "");
+      // Take guests to the Residences to SEE availability (on-site), dates carried along.
+      window.location.href = "stays.html" + (params.toString() ? "?" + params.toString() : "");
     });
   }
 
@@ -146,6 +147,27 @@
   });
 
   document.querySelectorAll("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
+
+  /* Carry dates from the homepage "Check Availability" bar onto the Residences
+     overview (notice + links) so guests land on live availability. */
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var a = q.get("arrive"), d = q.get("depart");
+    if (!a || !d) return;
+    var dq = "?arrive=" + a + "&depart=" + d;
+    document.querySelectorAll('a[href="stays-ranchhouse.html"],a[href="stays-villa.html"],a[href="stays-vineyard-house.html"]').forEach(function (el) {
+      el.setAttribute("href", el.getAttribute("href").split("?")[0] + dq);
+    });
+    if (/stays\.html$/.test(location.pathname) || location.pathname.replace(/\/$/, "").endsWith("/stays")) {
+      var hero = document.querySelector(".page-hero");
+      function fd(s) { var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString("en-US", { month: "short", day: "numeric" }); }
+      if (hero) {
+        var n = document.createElement("div"); n.className = "section-sm"; n.style.paddingBottom = "0";
+        n.innerHTML = '<div class="wrap center"><p class="eyebrow center">Availability</p><p class="body-lead" style="margin:.6rem auto 0">Showing open dates for <strong>' + fd(a) + " – " + fd(d) + "</strong>. Choose a residence below to see its calendar.</p></div>";
+        hero.after(n);
+      }
+    }
+  })();
 
   /* Availability calendar (residence pages) — shows each home's Airbnb-blocked
      dates (view only). Guests pick an open range and inquire DIRECTLY with us. */
@@ -243,5 +265,17 @@
       paint();
     }
     render(); updateSummary();
+
+    // Pre-select dates carried from the homepage / Residences overview
+    var pq = new URLSearchParams(location.search);
+    var pa = pq.get("arrive"), pd = pq.get("depart");
+    if (pa && pd && pd > pa && !busy.has(pa) && !nightsBusy(pa, pd)) {
+      start = pa; end = pd;
+      var ad = parse(pa);
+      var diff = (ad.getFullYear() - minMonth.getFullYear()) * 12 + (ad.getMonth() - minMonth.getMonth());
+      offset = Math.max(0, diff - (diff % 2));
+      render(); updateSummary();
+      setTimeout(function () { root.scrollIntoView({ behavior: "smooth", block: "center" }); }, 300);
+    }
   }
 })();
