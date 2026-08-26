@@ -153,7 +153,10 @@
   if (calRoots.length) {
     var calPromise = null;
     function getCalData() {
-      if (!calPromise) calPromise = fetch("/.netlify/functions/availability").then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+      if (!calPromise) {
+        var url = "/.netlify/functions/availability" + (/[?&]demo\b/.test(location.search) ? "?demo=1" : "");
+        calPromise = fetch(url).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+      }
       return calPromise;
     }
     calRoots.forEach(function (root) {

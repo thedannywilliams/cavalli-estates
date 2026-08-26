@@ -17,7 +17,27 @@
    Until they're set, this returns empty availability (no restrictions).
    ============================================================ */
 
-export default async () => {
+export default async (req) => {
+  // Demo mode (?demo=1): sample booked dates so the calendar can be previewed
+  // before the real Airbnb iCal feeds are connected.
+  let demo = false;
+  try { demo = new URL(req.url).searchParams.has("demo"); } catch {}
+  if (demo) {
+    const mk = (ranges) => {
+      const out = [], base = new Date(); base.setHours(12, 0, 0, 0);
+      for (const [a, b] of ranges) for (let i = a; i <= b; i++) { const d = new Date(base); d.setDate(d.getDate() + i); out.push(d.toISOString().slice(0, 10)); }
+      return out;
+    };
+    const listings = {
+      ranchhouse: mk([[3, 6], [20, 23], [38, 40]]),
+      villa: mk([[8, 12], [27, 27], [34, 36]]),
+      vineyard: mk([[2, 2], [14, 17], [30, 33], [45, 48]]),
+    };
+    return new Response(JSON.stringify({ updated: new Date().toISOString(), configured: true, demo: true, listings, fullyBooked: [] }), {
+      headers: { "content-type": "application/json", "cache-control": "no-store" },
+    });
+  }
+
   const feeds = {
     ranchhouse: process.env.CAVALLI_ICAL_RANCHHOUSE,
     villa: process.env.CAVALLI_ICAL_VILLA,
