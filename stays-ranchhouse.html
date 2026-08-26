@@ -108,12 +108,10 @@
       <p class="eyebrow center">Availability</p>
       <h2>Check your dates</h2>
     </div>
-    <form class="avail-card" data-reveal data-availability="ranchhouse" data-airbnb="https://www.airbnb.com/rooms/52754730">
-      <div class="avail-field"><label for="av-arrive">Arrive</label><input type="date" id="av-arrive" name="arrive" /></div>
-      <div class="avail-field"><label for="av-depart">Depart</label><input type="date" id="av-depart" name="depart" /></div>
-      <button class="btn gold" type="submit"><span>Check Availability</span></button>
-    </form>
-    <div class="avail-result" data-avail-result hidden></div>
+    <div class="cal-wrap" data-reveal>
+      <div class="cal" data-cal data-availability="ranchhouse"></div>
+      <div class="cal-summary" data-cal-summary></div>
+    </div>
     <p class="form-note center" style="margin-top: var(--space-s)">Synced with our Airbnb calendar. Prefer to talk? Call <a class="text-gold" href="tel:+18052421154">805-242-1154</a>.</p>
   </div>
 </section>
@@ -132,7 +130,7 @@
         <p class="body-lead">Surrounded by pastures and our friendly farm animals, the Ranch House is ideal for families and nature lovers looking for peace, quiet, and a taste of ranch life. Thirteen beds, fire-pit nights, and animal sightings daily — an easy base for exploring the 137 acres and the wineries just beyond the gate.</p>
         <div class="cta-row" style="margin-top: var(--space-m)">
           <a class="btn gold" href="contact.html"><span>Inquire Directly</span></a>
-          <a class="btn outline" href="https://www.airbnb.com/rooms/52754730" target="_blank" rel="noopener"><span>Book on Airbnb</span></a>
+          <a class="btn outline" href="contact.html"><span>Reserve</span></a>
         </div>
       </div>
     </div>

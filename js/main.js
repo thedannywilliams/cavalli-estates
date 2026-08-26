@@ -147,55 +147,98 @@
 
   document.querySelectorAll("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
 
-  /* Per-home availability check (residence pages) — validates against that
-     listing's Airbnb calendar via /.netlify/functions/availability. */
-  var availForms = document.querySelectorAll("[data-availability]");
-  if (availForms.length) {
-    var availPromise = null;
-    function getAvail() {
-      if (!availPromise) availPromise = fetch("/.netlify/functions/availability").then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
-      return availPromise;
+  /* Availability calendar (residence pages) — shows each home's Airbnb-blocked
+     dates (view only). Guests pick an open range and inquire DIRECTLY with us. */
+  var calRoots = document.querySelectorAll("[data-cal]");
+  if (calRoots.length) {
+    var calPromise = null;
+    function getCalData() {
+      if (!calPromise) calPromise = fetch("/.netlify/functions/availability").then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+      return calPromise;
     }
-    availForms.forEach(function (form) {
-      var key = form.getAttribute("data-availability");
-      var airbnb = form.getAttribute("data-airbnb") || "#";
-      var arrive = form.querySelector('[name="arrive"]');
-      var depart = form.querySelector('[name="depart"]');
-      var result = form.parentElement.querySelector("[data-avail-result]");
-      var todayISO = new Date().toISOString().slice(0, 10);
-      [arrive, depart].forEach(function (i) { if (i) i.min = todayISO; });
-
-      function show(msg, cls, ctas) {
-        if (!result) return;
-        result.className = "avail-result " + (cls || "");
-        result.innerHTML = "<p>" + msg + "</p>" + (ctas ? '<div class="cta-row">' + ctas + "</div>" : "");
-        result.hidden = false;
-        result.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      }
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        if (!arrive.value || !depart.value || depart.value <= arrive.value) {
-          show("Please choose an arrival date and a later departure date.", "", "");
-          return;
-        }
-        var q = "?arrive=" + arrive.value + "&depart=" + depart.value;
-        getAvail().then(function (j) {
-          var busy = (j && j.listings && j.listings[key]) ? new Set(j.listings[key]) : new Set();
-          var days = [], d = new Date(arrive.value), end = new Date(depart.value);
-          for (; d < end; d.setUTCDate(d.getUTCDate() + 1)) days.push(d.toISOString().slice(0, 10));
-          var conflict = days.some(function (x) { return busy.has(x); });
-          if (!j || !j.configured) {
-            show("Send us your dates and we’ll confirm availability right away.", "open",
-              '<a class="btn gold" href="contact.html' + q + '"><span>Inquire</span></a> <a class="btn outline" href="' + airbnb + '" target="_blank" rel="noopener"><span>Book on Airbnb</span></a>');
-          } else if (conflict) {
-            show("Those dates are booked. Try different dates, or send an inquiry and we’ll help you find a stay.", "busy",
-              '<a class="btn gold" href="contact.html' + q + '"><span>Inquire</span></a>');
-          } else {
-            show("Good news — those dates look open. Reserve now to lock them in.", "open",
-              '<a class="btn gold" href="' + airbnb + '" target="_blank" rel="noopener"><span>Book on Airbnb</span></a> <a class="btn outline" href="contact.html' + q + '"><span>Inquire Directly</span></a>');
-          }
-        });
+    calRoots.forEach(function (root) {
+      root.innerHTML = '<p class="cal-loading">Loading availability…</p>';
+      var key = root.getAttribute("data-availability");
+      getCalData().then(function (j) {
+        var busy = (j && j.listings && j.listings[key]) ? new Set(j.listings[key]) : new Set();
+        buildCalendar(root, busy);
       });
     });
+  }
+
+  function buildCalendar(root, busy) {
+    var summary = root.parentElement.querySelector("[data-cal-summary]");
+    var today = new Date(); today.setHours(0, 0, 0, 0);
+    var minMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    var offset = 0, start = null, end = null;
+    var DOW = ["S", "M", "T", "W", "T", "F", "S"];
+
+    function iso(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+    function parse(s) { var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
+    function fmt(s) { return parse(s).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }); }
+    function nightsBusy(a, b) { for (var d = parse(a); d < parse(b); d.setDate(d.getDate() + 1)) { if (busy.has(iso(d))) return true; } return false; }
+
+    function pick(ds) {
+      if (!start || end) { start = ds; end = null; }
+      else if (ds > start) { if (nightsBusy(start, ds)) { start = ds; end = null; } else { end = ds; } }
+      else { start = ds; end = null; }
+      paint(); updateSummary();
+    }
+    function paint() {
+      root.querySelectorAll(".cal-day").forEach(function (c) {
+        var ds = c.dataset.date; if (!ds) return;
+        c.classList.remove("sel-start", "sel-end", "in-range");
+        if (ds === start) c.classList.add("sel-start");
+        if (end && ds === end) c.classList.add("sel-end");
+        if (start && end && ds > start && ds < end) c.classList.add("in-range");
+      });
+    }
+    function updateSummary() {
+      if (!summary) return;
+      if (start && end) {
+        summary.innerHTML = "<p><strong>" + fmt(start) + "</strong> &rarr; <strong>" + fmt(end) + "</strong> are open.</p><div class=\"cta-row\"><a class=\"btn gold\" href=\"contact.html?arrive=" + start + "&depart=" + end + "\"><span>Inquire About These Dates</span></a></div>";
+      } else if (start) { summary.innerHTML = "<p>Arrival <strong>" + fmt(start) + "</strong> selected — now choose your departure.</p>"; }
+      else { summary.innerHTML = "<p>Select your arrival and departure to check availability, then inquire with us directly.</p>"; }
+    }
+    function monthEl(first) {
+      var m = document.createElement("div"); m.className = "cal-month";
+      var t = document.createElement("div"); t.className = "cal-month__title";
+      t.textContent = first.toLocaleString("en-US", { month: "long", year: "numeric" }); m.appendChild(t);
+      var grid = document.createElement("div"); grid.className = "cal-grid";
+      DOW.forEach(function (d) { var e = document.createElement("div"); e.className = "cal-dow"; e.textContent = d; grid.appendChild(e); });
+      for (var i = 0; i < first.getDay(); i++) { var pad = document.createElement("div"); pad.className = "cal-day empty"; grid.appendChild(pad); }
+      var dim = new Date(first.getFullYear(), first.getMonth() + 1, 0).getDate();
+      for (var day = 1; day <= dim; day++) {
+        var date = new Date(first.getFullYear(), first.getMonth(), day);
+        var cell = document.createElement("div"); cell.className = "cal-day"; cell.textContent = day; cell.dataset.date = iso(date);
+        if (date < today) cell.classList.add("past");
+        else if (busy.has(iso(date))) cell.classList.add("busy");
+        else { cell.classList.add("avail"); cell.addEventListener("click", function () { pick(this.dataset.date); }); }
+        grid.appendChild(cell);
+      }
+      m.appendChild(grid); return m;
+    }
+    function render() {
+      root.innerHTML = "";
+      var legend = document.createElement("div"); legend.className = "cal-legend";
+      legend.innerHTML = '<span><i></i>Available</span><span><i class="busy"></i>Booked</span><span><i class="sel"></i>Your dates</span>';
+      root.appendChild(legend);
+      var nav = document.createElement("div"); nav.className = "cal-nav";
+      var prev = document.createElement("button"); prev.setAttribute("aria-label", "Previous months"); prev.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 5l-7 7 7 7"/></svg>';
+      var next = document.createElement("button"); next.setAttribute("aria-label", "Next months"); next.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5l7 7-7 7"/></svg>';
+      var label = document.createElement("span"); label.className = "cal-nav__label";
+      var base = new Date(minMonth.getFullYear(), minMonth.getMonth() + offset, 1);
+      label.textContent = base.toLocaleString("en-US", { month: "short", year: "numeric" });
+      prev.disabled = offset <= 0;
+      prev.addEventListener("click", function () { if (offset > 0) { offset -= 2; if (offset < 0) offset = 0; render(); } });
+      next.addEventListener("click", function () { offset += 2; render(); });
+      nav.appendChild(prev); nav.appendChild(label); nav.appendChild(next); root.appendChild(nav);
+      var wrap = document.createElement("div"); wrap.className = "cal-months";
+      wrap.appendChild(monthEl(new Date(base.getFullYear(), base.getMonth(), 1)));
+      wrap.appendChild(monthEl(new Date(base.getFullYear(), base.getMonth() + 1, 1)));
+      root.appendChild(wrap);
+      paint();
+    }
+    render(); updateSummary();
   }
 })();

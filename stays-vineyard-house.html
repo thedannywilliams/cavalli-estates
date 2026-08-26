@@ -108,12 +108,10 @@
       <p class="eyebrow center">Availability</p>
       <h2>Check your dates</h2>
     </div>
-    <form class="avail-card" data-reveal data-availability="vineyard" data-airbnb="https://www.airbnb.com/rooms/1313294453629470757">
-      <div class="avail-field"><label for="av-arrive">Arrive</label><input type="date" id="av-arrive" name="arrive" /></div>
-      <div class="avail-field"><label for="av-depart">Depart</label><input type="date" id="av-depart" name="depart" /></div>
-      <button class="btn gold" type="submit"><span>Check Availability</span></button>
-    </form>
-    <div class="avail-result" data-avail-result hidden></div>
+    <div class="cal-wrap" data-reveal>
+      <div class="cal" data-cal data-availability="vineyard"></div>
+      <div class="cal-summary" data-cal-summary></div>
+    </div>
     <p class="form-note center" style="margin-top: var(--space-s)">Synced with our Airbnb calendar. Prefer to talk? Call <a class="text-gold" href="tel:+18052421154">805-242-1154</a>.</p>
   </div>
 </section>
@@ -132,7 +130,7 @@
         <p class="body-lead">An outdoor living space, a pool and hot tub, a pickleball court, and room for seven — the Vineyard House is made for easy days and long, celebratory evenings among the vines. Where big families and close friends come together, celebrations spill easily from kitchen to pool to garden.</p>
         <div class="cta-row" style="margin-top: var(--space-m)">
           <a class="btn gold" href="contact.html"><span>Inquire Directly</span></a>
-          <a class="btn outline" href="https://www.airbnb.com/rooms/1313294453629470757" target="_blank" rel="noopener"><span>Book on Airbnb</span></a>
+          <a class="btn outline" href="contact.html"><span>Reserve</span></a>
         </div>
       </div>
     </div>

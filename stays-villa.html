@@ -108,12 +108,10 @@
       <p class="eyebrow center">Availability</p>
       <h2>Check your dates</h2>
     </div>
-    <form class="avail-card" data-reveal data-availability="villa" data-airbnb="https://www.airbnb.com/rooms/853561169724599516">
-      <div class="avail-field"><label for="av-arrive">Arrive</label><input type="date" id="av-arrive" name="arrive" /></div>
-      <div class="avail-field"><label for="av-depart">Depart</label><input type="date" id="av-depart" name="depart" /></div>
-      <button class="btn gold" type="submit"><span>Check Availability</span></button>
-    </form>
-    <div class="avail-result" data-avail-result hidden></div>
+    <div class="cal-wrap" data-reveal>
+      <div class="cal" data-cal data-availability="villa"></div>
+      <div class="cal-summary" data-cal-summary></div>
+    </div>
     <p class="form-note center" style="margin-top: var(--space-s)">Synced with our Airbnb calendar. Prefer to talk? Call <a class="text-gold" href="tel:+18052421154">805-242-1154</a>.</p>
   </div>
 </section>
@@ -132,7 +130,7 @@
         <p class="body-lead">Surrounded by vineyards, pastures, and citrus groves, just minutes from the tasting rooms — with an outdoor fireplace, patios, and a pool for long golden afternoons. Six bedrooms and spa-like bathrooms sleep up to sixteen, making it perfect for bridal parties, family groups, or friends reconnecting over wine and sunshine.</p>
         <div class="cta-row" style="margin-top: var(--space-m)">
           <a class="btn gold" href="contact.html"><span>Inquire Directly</span></a>
-          <a class="btn outline" href="https://www.airbnb.com/rooms/853561169724599516" target="_blank" rel="noopener"><span>Book on Airbnb</span></a>
+          <a class="btn outline" href="contact.html"><span>Reserve</span></a>
         </div>
       </div>
     </div>
