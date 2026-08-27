@@ -628,3 +628,8 @@ body.menu-open .nav-mobile { opacity: 1; visibility: visible; transform: scale(1
 .cal-day.sel-start, .cal-day.sel-end { background: var(--char); color: var(--ivory); border-radius: 50%; font-weight: 600; }
 .cal-legend i.busy { background: none; position: relative; }
 .cal-legend i.busy::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px solid var(--ink-mute); }
+
+/* ---- Center residence carousel cards ---------------------- */
+.slide__idx, .slide h3, .slide p { text-align: center; }
+.slide p { margin-inline: auto; }
+.slide .link { justify-content: center; }
