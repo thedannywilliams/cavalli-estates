@@ -207,7 +207,7 @@
       if (!start || end) { start = ds; end = null; }
       else if (ds > start) { if (nightsBusy(start, ds)) { start = ds; end = null; } else { end = ds; } }
       else { start = ds; end = null; }
-      paint(); updateSummary();
+      paint(); updateSummary(); updateFields();
     }
     function paint() {
       root.querySelectorAll(".cal-day").forEach(function (c) {
@@ -243,8 +243,18 @@
       }
       m.appendChild(grid); return m;
     }
+    function updateFields() {
+      var ci = root.querySelector("[data-ci]"), co = root.querySelector("[data-co]");
+      if (ci) { ci.textContent = start ? fmt(start) : "Add date"; ci.classList.toggle("empty", !start); }
+      if (co) { co.textContent = end ? fmt(end) : "Add date"; co.classList.toggle("empty", !end); }
+      var f = root.querySelector(".cal-fields");
+      if (f) { f.classList.toggle("active-in", !start || !!end); f.classList.toggle("active-out", !!start && !end); }
+    }
     function render() {
       root.innerHTML = "";
+      var fields = document.createElement("div"); fields.className = "cal-fields";
+      fields.innerHTML = '<div><label>Check-in</label><div class="val empty" data-ci>Add date</div></div><div><label>Check-out</label><div class="val empty" data-co>Add date</div></div>';
+      root.appendChild(fields);
       var legend = document.createElement("div"); legend.className = "cal-legend";
       legend.innerHTML = '<span><i></i>Available</span><span><i class="busy"></i>Booked</span><span><i class="sel"></i>Your dates</span>';
       root.appendChild(legend);
@@ -262,7 +272,7 @@
       wrap.appendChild(monthEl(new Date(base.getFullYear(), base.getMonth(), 1)));
       wrap.appendChild(monthEl(new Date(base.getFullYear(), base.getMonth() + 1, 1)));
       root.appendChild(wrap);
-      paint();
+      paint(); updateFields();
     }
     render(); updateSummary();
 
