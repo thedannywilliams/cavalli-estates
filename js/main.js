@@ -60,19 +60,42 @@
       return Math.max(1, Math.round(vw / sw));
     }
     function maxIndex() { return Math.max(0, slides.length - perView()); }
-    function update() {
-      index = Math.min(index, maxIndex());
+    var viewport = root.querySelector(".carousel__viewport");
+    function slideWidth() {
       var gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || 0);
-      var sw = slides[0].getBoundingClientRect().width + gap;
-      track.style.transform = "translateX(" + (-index * sw) + "px)";
+      return slides[0].getBoundingClientRect().width + gap;
+    }
+    function isSwipeMode() {
+      return viewport && getComputedStyle(viewport).overflowX === "auto";
+    }
+    function update(scrollIt) {
+      index = Math.min(index, maxIndex());
+      var sw = slideWidth();
+      if (isSwipeMode()) {
+        track.style.transform = "";
+        if (scrollIt !== false && slides[index]) slides[index].scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+      } else {
+        track.style.transform = "translateX(" + (-index * sw) + "px)";
+      }
       if (prev) prev.disabled = index <= 0;
       if (next) next.disabled = index >= maxIndex();
       if (count) count.textContent = (index + 1) + " / " + (maxIndex() + 1);
     }
     if (prev) prev.addEventListener("click", function () { index = Math.max(0, index - 1); update(); });
     if (next) next.addEventListener("click", function () { index = Math.min(maxIndex(), index + 1); update(); });
-    window.addEventListener("resize", update, { passive: true });
-    update();
+    if (viewport) {
+      var scrollTick;
+      viewport.addEventListener("scroll", function () {
+        if (!isSwipeMode()) return;
+        clearTimeout(scrollTick);
+        scrollTick = setTimeout(function () {
+          index = Math.min(maxIndex(), Math.max(0, Math.round(viewport.scrollLeft / slideWidth())));
+          update(false);
+        }, 80);
+      }, { passive: true });
+    }
+    window.addEventListener("resize", function () { update(false); }, { passive: true });
+    update(false);
   });
 
   /* Booking bar — tied to Airbnb availability via /.netlify/functions/availability.

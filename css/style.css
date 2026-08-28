@@ -679,3 +679,16 @@ body.menu-open .nav-mobile { opacity: 1; visibility: visible; transform: scale(1
 .exp-cell { align-items: center; text-align: center; }
 .pkg { text-align: center; }
 .pkg .cta-row { justify-content: center; }
+
+/* ---- Mobile: carousel swipes natively --------------------- */
+@media (max-width: 759px) {
+  .carousel__viewport { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; scroll-padding-inline: 1rem; }
+  .carousel__viewport::-webkit-scrollbar { display: none; }
+  .carousel__track { transform: none !important; transition: none; padding-inline: .25rem; }
+  .slide { scroll-snap-align: center; }
+}
+
+/* ---- Mobile: keep big band headlines inside the viewport --- */
+@media (max-width: 759px) {
+  .cta-band h2 { font-size: clamp(1.7rem, 7.6vw, 2.4rem); }
+}
