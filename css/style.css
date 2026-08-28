@@ -660,3 +660,22 @@ body.menu-open .nav-mobile { opacity: 1; visibility: visible; transform: scale(1
 /* ---- Events occasions: portrait tiles (full-height imagery) -- */
 #occasions .tile { aspect-ratio: 3/4; min-height: 0; }
 #occasions .tile p { opacity: 1; max-height: 6rem; }
+
+/* ============================================================
+   Centered flow — site-wide alignment pass
+   Feature bodies, amenities, products, and cards read centered,
+   matching the page heroes and intros for one continuous rhythm.
+   ============================================================ */
+.feature__body { text-align: center; }
+.feature__body .body-lead,
+.feature__body .measure { margin-inline: auto; }
+.feature__body .cta-row { justify-content: center; }
+.specbar { text-align: center; }
+.amenity { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: .8rem; }
+.amenity .ic { margin-inline: auto; }
+.product { text-align: center; }
+.product__tag { left: 50%; transform: translateX(-50%); }
+.product__buy { display: flex; justify-content: center; }
+.exp-cell { align-items: center; text-align: center; }
+.pkg { text-align: center; }
+.pkg .cta-row { justify-content: center; }
