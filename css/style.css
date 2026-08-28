@@ -656,3 +656,7 @@ body.menu-open .nav-mobile { opacity: 1; visibility: visible; transform: scale(1
 .bio-block .bio-full p:first-child::first-letter { font-family: var(--serif, "Cormorant Garamond", serif); font-size: 2.6em; line-height: .85; float: left; padding: .06em .12em 0 0; color: var(--gold-soft); }
 .bio-block .bio-full p:last-child { margin-bottom: 0; }
 @keyframes bio-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ---- Events occasions: portrait tiles (full-height imagery) -- */
+#occasions .tile { aspect-ratio: 3/4; min-height: 0; }
+#occasions .tile p { opacity: 1; max-height: 6rem; }
