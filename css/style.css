@@ -633,3 +633,8 @@ body.menu-open .nav-mobile { opacity: 1; visibility: visible; transform: scale(1
 .slide__idx, .slide h3, .slide p { text-align: center; }
 .slide p { margin-inline: auto; }
 .slide .link { justify-content: center; }
+
+/* ---- Center residences carousel (header, cards, button) ---- */
+.carousel__head { flex-direction: column; align-items: center; text-align: center; gap: var(--space-s); }
+.slide { text-align: center; }
+#residences .cta-row { justify-content: center; }
