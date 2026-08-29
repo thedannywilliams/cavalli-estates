@@ -704,4 +704,4 @@ body.menu-open .nav-mobile { opacity: 1; visibility: visible; transform: scale(1
 
 
 /* ---- Tighter rhythm: collapse doubled padding between stacked dark sections ---- */
-.dark + .dark, .section.dark + .section-sm.dark, .section-sm.dark + .section.dark { padding-top: 0; }
+.dark + .dark, .section.dark + .section-sm.dark, .section-sm.dark + .section.dark { padding-top: 0; display: flow-root; margin-top: 0; }
