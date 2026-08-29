@@ -237,11 +237,11 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.07em; line-height: 1.18; f
 .nav-side.right { justify-self: end; }
 .nav-side.left { justify-self: start; }
 @media (min-width: 1200px) { .nav-side { display: flex; } }
-.navlink { font-family: var(--sans); font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 400; position: relative; padding-block: 5px; white-space: nowrap; }
+.navlink { font-family: var(--sans); font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 400; position: relative; padding-block: 5px; white-space: nowrap; }
 .navlink::after { content: ""; position: absolute; left: 0; bottom: 0; height: 1px; width: 0; background: var(--gold); transition: width .45s var(--ease); }
 .navlink:hover::after, .navlink[aria-current="page"]::after { width: 100%; }
 .btn-reserve {
-  font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.26em; text-transform: uppercase;
+  font-family: var(--sans); font-size: 0.74rem; letter-spacing: 0.24em; text-transform: uppercase;
   padding: 0.85em 1.5em; border: 1px solid currentColor; border-radius: var(--radius);
   transition: background .5s var(--ease), color .5s var(--ease), border-color .5s var(--ease);
 }
