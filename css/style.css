@@ -710,3 +710,59 @@ body.menu-open .nav-mobile { opacity: 1; visibility: visible; transform: scale(1
 .product__media { border: 1px solid color-mix(in srgb, var(--gold-soft) 55%, var(--hair)); padding: .7rem; background: var(--ivory-2); }
 .product__media img { border: 1px solid var(--hair); }
 .product__tag { top: 1.4rem; }
+
+/* ============================================================
+   Shop — product detail modal, bag drawer, quantity steppers
+   ============================================================ */
+.shop-overlay { position: fixed; inset: 0; z-index: 90; display: none; }
+.shop-overlay.open { display: block; }
+.shop-overlay__scrim { position: absolute; inset: 0; background: color-mix(in srgb, var(--char) 55%, transparent); }
+.pmodal { position: absolute; inset: 0; margin: auto; width: min(94vw, 56rem); height: fit-content; max-height: 92svh; overflow: auto;
+  background: var(--ivory); border: 1px solid var(--hair); display: grid; }
+@media (min-width: 760px) { .pmodal { grid-template-columns: 1fr 1fr; } }
+.pmodal__close { position: absolute; top: .6rem; right: .9rem; z-index: 2; font-size: 1.6rem; line-height: 1; color: var(--ink-mute); padding: .3em .5em; }
+.pmodal__close:hover { color: var(--char); }
+.pmodal__media { background: var(--ivory-2); border-right: 1px solid var(--hair); }
+.pmodal__media img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/5; }
+.pmodal__body { padding: clamp(1.6rem, 3vw, 2.6rem); text-align: center; display: grid; gap: .9rem; align-content: center; }
+.pmodal__body h3 { font-family: var(--serif); font-weight: 400; font-size: var(--step-2); }
+.pmodal__desc { color: var(--ink-soft); font-size: var(--step--1); max-width: 38ch; margin-inline: auto; }
+.pmodal__field { display: grid; gap: .4rem; justify-items: center; }
+.pmodal__field label { font-family: var(--sans); font-size: .62rem; letter-spacing: .24em; text-transform: uppercase; color: var(--ink-mute); }
+.pmodal__field select { font-family: var(--sans); font-size: .85rem; padding: .6em 1em; border: 1px solid var(--hair); background: var(--ivory); color: var(--char); }
+.qty { display: inline-flex; align-items: center; border: 1px solid var(--hair); }
+.qty button { width: 2.4rem; height: 2.4rem; font-size: 1.1rem; color: var(--char); }
+.qty button:hover { background: var(--ivory-2); }
+.qty span { min-width: 2.6rem; text-align: center; font-family: var(--serif); font-size: 1.1rem; }
+.qty--sm button { width: 1.7rem; height: 1.7rem; font-size: .9rem; }
+.qty--sm span { min-width: 1.9rem; font-size: .95rem; }
+.pmodal__price { font-family: var(--serif); font-size: var(--step-2); }
+.pmodal__add { justify-self: center; }
+.pmodal__note { font-size: .72rem; color: var(--ink-mute); max-width: 34ch; margin-inline: auto; }
+
+.bag-fab { position: fixed; right: clamp(1rem, 3vw, 2rem); bottom: clamp(1rem, 3vw, 2rem); z-index: 80;
+  width: 3.4rem; height: 3.4rem; border-radius: 50%; display: grid; place-items: center;
+  background: var(--char); color: var(--ivory); box-shadow: 0 8px 30px rgba(20,17,12,.25); }
+.bag-fab:hover { background: var(--gold-deep); }
+.bag-fab__count { position: absolute; top: -4px; right: -4px; min-width: 1.3rem; height: 1.3rem; border-radius: 50%;
+  background: var(--gold); color: var(--ivory); font-family: var(--sans); font-size: .68rem; display: grid; place-items: center; padding-inline: .25em; }
+
+.bag-drawer { position: fixed; top: 0; right: 0; bottom: 0; z-index: 95; width: min(92vw, 26rem);
+  background: var(--ivory); border-left: 1px solid var(--hair); box-shadow: -20px 0 60px rgba(20,17,12,.18);
+  transform: translateX(105%); transition: transform .5s var(--ease); display: flex; flex-direction: column; }
+.bag-drawer.open { transform: translateX(0); }
+.bag-drawer__head { display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 1.4rem; border-bottom: 1px solid var(--hair); }
+.bag-drawer__head h3 { font-family: var(--serif); font-weight: 400; font-size: var(--step-1); }
+.bag-drawer__head .pmodal__close { position: static; }
+.bag-drawer__items { flex: 1; overflow: auto; padding: 1rem 1.4rem; display: grid; gap: 1rem; align-content: start; }
+.bag-empty { color: var(--ink-mute); text-align: center; margin-top: 2rem; font-style: italic; font-family: var(--serif); font-size: 1.05rem; }
+.bag-item { display: grid; grid-template-columns: 3.6rem 1fr auto; gap: .9rem; align-items: center; border-bottom: 1px solid var(--hair); padding-bottom: 1rem; }
+.bag-item img { width: 3.6rem; height: 4.4rem; object-fit: cover; border: 1px solid var(--hair); }
+.bag-item__info { display: grid; gap: .35rem; justify-items: start; }
+.bag-item__info b { font-family: var(--serif); font-weight: 400; font-size: .98rem; }
+.bag-item__variant { font-size: .68rem; letter-spacing: .08em; color: var(--ink-mute); }
+.bag-item__end { display: grid; gap: .3rem; justify-items: end; font-family: var(--serif); }
+.bag-item__remove { font-family: var(--sans); font-size: .6rem; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-mute); border-bottom: 1px solid var(--hair); }
+.bag-item__remove:hover { color: var(--char); }
+.bag-drawer__foot { border-top: 1px solid var(--hair); padding: 1.2rem 1.4rem; display: grid; gap: .8rem; text-align: center; }
+.bag-drawer__total { display: flex; justify-content: space-between; font-family: var(--serif); font-size: 1.1rem; }
