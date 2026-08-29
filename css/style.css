@@ -153,8 +153,8 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.07em; line-height: 1.18; f
 .wrap { width: min(100% - 3rem, var(--maxw)); margin-inline: auto; }
 .wrap-narrow { width: min(100% - 3rem, 880px); margin-inline: auto; }
 .wrap-wide { width: min(100% - 2rem, 1600px); margin-inline: auto; }
-.section { padding-block: var(--space-xl); }
-.section-sm { padding-block: var(--space-l); }
+.section { padding-block: clamp(2.6rem, 2rem + 2.6vw, 4.8rem); }
+.section-sm { padding-block: clamp(1.8rem, 1.5rem + 1.6vw, 3rem); }
 .stack > * + * { margin-top: var(--space-s); }
 .stack-l > * + * { margin-top: var(--space-m); }
 .center { text-align: center; }
@@ -489,7 +489,7 @@ body.menu-open .nav-mobile { opacity: 1; visibility: visible; transform: scale(1
 .map-embed { aspect-ratio: 16/7; width: 100%; border: 0; filter: grayscale(.4) contrast(.95) sepia(.08); }
 
 /* ---- Footer ----------------------------------------------- */
-.site-footer { background: var(--char-2); color: var(--ivory); padding-top: var(--space-xl); }
+.site-footer { background: var(--char-2); color: var(--ivory); padding-top: var(--space-l); }
 .site-footer a { opacity: .78; transition: opacity .3s, color .3s; }
 .site-footer a:hover { opacity: 1; color: var(--gold-soft); }
 .footer-top { text-align: center; padding-bottom: var(--space-l); border-bottom: 1px solid var(--hair-light); }
@@ -577,7 +577,7 @@ body.menu-open .nav-mobile { opacity: 1; visibility: visible; transform: scale(1
   .page-hero .body-lead, .hero__sub { font-size: var(--step-0); }
   h2 { font-size: clamp(1.9rem, 8vw, 2.7rem); }
   h3 { font-size: clamp(1.35rem, 6vw, 1.7rem); }
-  .section { padding-block: clamp(2.8rem, 10vw, 4rem); }
+  .section { padding-block: clamp(2.2rem, 8vw, 3.2rem); }
   .btn { padding: 1em 1.5em; letter-spacing: 0.16em; }
   .lead { font-size: var(--step-1); }
 }
@@ -701,3 +701,7 @@ body.menu-open .nav-mobile { opacity: 1; visibility: visible; transform: scale(1
 /* ---- Page hero video (sanctuary) -------------------------- */
 .page-hero__media video { width: 100%; height: 100%; object-fit: cover; }
 @media (prefers-reduced-motion: reduce) { .page-hero__media video { display: none; } }
+
+
+/* ---- Tighter rhythm: collapse doubled padding between stacked dark sections ---- */
+.dark + .dark, .section.dark + .section-sm.dark, .section-sm.dark + .section.dark { padding-top: 0; }
