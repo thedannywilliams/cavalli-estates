@@ -782,3 +782,7 @@ body.menu-open .nav-mobile { opacity: 1; visibility: visible; transform: scale(1
 .lightbox__nav--next { right: .6rem; }
 @media (prefers-reduced-motion: no-preference) { .lightbox img { animation: lbfade .35s ease; } }
 @keyframes lbfade { from { opacity: 0; } to { opacity: 1; } }
+
+/* ---- Residences hero slideshow ---------------------------- */
+[data-hero-slideshow] .hslide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s var(--ease); }
+[data-hero-slideshow] .hslide.active { opacity: 1; }
