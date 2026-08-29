@@ -312,3 +312,65 @@
     }
   }
 })();
+
+/* ============================================================
+   Gallery lightbox — every mosaic image opens full-screen,
+   with previous/next arrows, keyboard, and tap-to-close.
+   ============================================================ */
+(function () {
+  "use strict";
+  var galleries = document.querySelectorAll(".mosaic");
+  if (!galleries.length) return;
+
+  var box = document.createElement("div");
+  box.className = "lightbox";
+  box.innerHTML =
+    '<button class="lightbox__close" type="button" aria-label="Close">&times;</button>' +
+    '<button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Previous">&#8249;</button>' +
+    '<figure><img alt="" /><figcaption></figcaption></figure>' +
+    '<button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Next">&#8250;</button>';
+  document.body.appendChild(box);
+  var boxImg = box.querySelector("img");
+  var boxCap = box.querySelector("figcaption");
+
+  var items = [];
+  var idx = 0;
+  function collect() {
+    items = Array.prototype.slice.call(document.querySelectorAll(".mosaic img"));
+  }
+  function show(i) {
+    idx = (i + items.length) % items.length;
+    boxImg.src = items[idx].currentSrc || items[idx].src;
+    boxImg.alt = items[idx].alt || "";
+    boxCap.textContent = items[idx].alt || "";
+  }
+  function open(i) {
+    collect();
+    show(i);
+    box.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+  function close() {
+    box.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  document.addEventListener("click", function (e) {
+    var img = e.target.closest(".mosaic img");
+    if (img) {
+      collect();
+      open(items.indexOf(img));
+      return;
+    }
+    if (!box.classList.contains("open")) return;
+    if (e.target.closest(".lightbox__nav--prev")) { show(idx - 1); return; }
+    if (e.target.closest(".lightbox__nav--next")) { show(idx + 1); return; }
+    if (e.target.closest(".lightbox__close") || e.target === box) close();
+  });
+  document.addEventListener("keydown", function (e) {
+    if (!box.classList.contains("open")) return;
+    if (e.key === "Escape") close();
+    if (e.key === "ArrowLeft") show(idx - 1);
+    if (e.key === "ArrowRight") show(idx + 1);
+  });
+})();
