@@ -705,3 +705,8 @@ body.menu-open .nav-mobile { opacity: 1; visibility: visible; transform: scale(1
 
 /* ---- Tighter rhythm: collapse doubled padding between stacked dark sections ---- */
 .dark + .dark, .section.dark + .section-sm.dark, .section-sm.dark + .section.dark { padding-top: 0; display: flow-root; margin-top: 0; }
+
+/* ---- Shop: matted frame around product images ------------- */
+.product__media { border: 1px solid color-mix(in srgb, var(--gold-soft) 55%, var(--hair)); padding: .7rem; background: var(--ivory-2); }
+.product__media img { border: 1px solid var(--hair); }
+.product__tag { top: 1.4rem; }
