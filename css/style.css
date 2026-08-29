@@ -464,8 +464,9 @@ body.menu-open .nav-mobile { opacity: 1; visibility: visible; transform: scale(1
 
 /* ---- Spec / amenity --------------------------------------- */
 .specbar { display: grid; gap: var(--space-s); border-block: 1px solid var(--hair); padding-block: var(--space-m); }
-@media (min-width: 640px) { .specbar { grid-template-columns: repeat(4, 1fr); text-align: center; } .specbar .spec + .spec { border-left: 1px solid var(--hair); } }
-.specbar .spec b { font-family: var(--serif); font-weight: 300; font-size: var(--step-3); display: block; }
+@media (min-width: 640px) { .specbar { grid-template-columns: repeat(4, 1fr); text-align: center; gap: var(--space-m) 0; } .specbar .spec + .spec { border-left: 1px solid var(--hair); } }
+.specbar .spec { padding-inline: 1rem; }
+.specbar .spec b { font-family: var(--serif); font-weight: 300; font-size: clamp(1.35rem, 2.4vw, 1.9rem); line-height: 1.15; display: block; margin-bottom: .4rem; text-wrap: balance; }
 .specbar .spec span { font-family: var(--sans); font-size: var(--step--2); letter-spacing: .22em; text-transform: uppercase; color: var(--ink-mute); }
 .todo { color: var(--gold); font-style: italic; font-family: var(--serif); }
 
