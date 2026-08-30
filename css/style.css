@@ -787,3 +787,7 @@ body[data-page="lavender"] .mosaic img, body[data-page="lavender"] .feature__med
 /* ---- Residences hero slideshow ---------------------------- */
 [data-hero-slideshow] .hslide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s var(--ease); }
 [data-hero-slideshow] .hslide.active { opacity: 1; }
+
+/* ---- Collapsible galleries -------------------------------- */
+.mosaic-hidden { display: none; }
+.mosaic-more { margin-top: var(--space-m); }

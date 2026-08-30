@@ -392,3 +392,30 @@
     slides[i].classList.add("active");
   }, 5000);
 })();
+
+/* ============================================================
+   Large galleries — show the first rows, expand on request.
+   Any mosaic with more than 10 photos collapses to 8 with a
+   "View All" button; the lightbox always has every photo.
+   ============================================================ */
+(function () {
+  "use strict";
+  var LIMIT = 8;
+  document.querySelectorAll(".mosaic").forEach(function (m) {
+    var figs = Array.prototype.slice.call(m.querySelectorAll("figure"));
+    if (figs.length <= LIMIT + 2) return;
+    figs.forEach(function (f, i) { if (i >= LIMIT) f.classList.add("mosaic-hidden"); });
+    var row = document.createElement("div");
+    row.className = "cta-row center mosaic-more";
+    row.innerHTML = '<button class="btn outline" type="button"><span>View All ' + figs.length + ' Photos</span></button>';
+    m.after(row);
+    var btn = row.querySelector("button");
+    var open = false;
+    btn.addEventListener("click", function () {
+      open = !open;
+      figs.forEach(function (f, i) { f.classList.toggle("mosaic-hidden", !open && i >= LIMIT); });
+      btn.querySelector("span").textContent = open ? "Show Fewer" : "View All " + figs.length + " Photos";
+      if (!open) m.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+})();
