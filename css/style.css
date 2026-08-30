@@ -768,7 +768,7 @@ body.menu-open .nav-mobile { opacity: 1; visibility: visible; transform: scale(1
 .bag-drawer__total { display: flex; justify-content: space-between; font-family: var(--serif); font-size: 1.1rem; }
 
 /* ---- Gallery lightbox ------------------------------------- */
-.mosaic img { cursor: zoom-in; }
+.mosaic img { cursor: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2228%22%20height%3D%2228%22%20viewBox%3D%220%200%2028%2028%22%3E%3Cg%20transform%3D%22rotate%2820%2014%2014%29%22%3E%3Cpath%20d%3D%22M14%2013v11%22%20stroke%3D%22%235a7a4a%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22/%3E%3Cpath%20d%3D%22M14%2018l-3.5%202.5M14%2020.5l3.5%202.5%22%20stroke%3D%22%235a7a4a%22%20stroke-width%3D%221.2%22%20stroke-linecap%3D%22round%22/%3E%3Cg%20fill%3D%22%238a6fc0%22%3E%3Cellipse%20cx%3D%2214%22%20cy%3D%224%22%20rx%3D%221.7%22%20ry%3D%222.1%22/%3E%3Cellipse%20cx%3D%2211.6%22%20cy%3D%226.4%22%20rx%3D%221.6%22%20ry%3D%222%22/%3E%3Cellipse%20cx%3D%2216.4%22%20cy%3D%226.4%22%20rx%3D%221.6%22%20ry%3D%222%22/%3E%3Cellipse%20cx%3D%2212%22%20cy%3D%229.4%22%20rx%3D%221.6%22%20ry%3D%222%22/%3E%3Cellipse%20cx%3D%2216%22%20cy%3D%229.4%22%20rx%3D%221.6%22%20ry%3D%222%22/%3E%3Cellipse%20cx%3D%2214%22%20cy%3D%227%22%20rx%3D%221.7%22%20ry%3D%222.1%22%20fill%3D%22%237a5fb5%22/%3E%3Cellipse%20cx%3D%2214%22%20cy%3D%2210.6%22%20rx%3D%221.7%22%20ry%3D%222.1%22%20fill%3D%22%237a5fb5%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") 14 4, pointer; }
 .lightbox { position: fixed; inset: 0; z-index: 120; display: none; align-items: center; justify-content: center;
   background: color-mix(in srgb, var(--char) 92%, transparent); padding: clamp(1rem, 4vw, 3rem); }
 .lightbox.open { display: flex; }
