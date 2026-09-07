@@ -797,9 +797,9 @@ body[data-page="lavender"] .mosaic img, body[data-page="lavender"] .feature__med
 @media (max-width: 1899px) {
   .nav-full { display: none; }
   .nav-short { display: inline; }
-  .navlink { font-size: 0.68rem; letter-spacing: 0.11em; }
-  .btn-reserve { font-size: 0.64rem; letter-spacing: 0.18em; padding: 0.8em 1.2em; }
-  .nav-side { gap: clamp(0.55rem, 1vw, 1.2rem); }
+  .navlink { font-size: 0.66rem; letter-spacing: 0.09em; }
+  .btn-reserve { font-size: 0.62rem; letter-spacing: 0.13em; padding: 0.78em 0.95em; }
+  .nav-side { gap: clamp(0.5rem, 0.9vw, 1.05rem); }
 }
 
 /* ---- Booking bar always tappable --------------------------- */
