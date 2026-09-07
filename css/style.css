@@ -803,4 +803,4 @@ body[data-page="lavender"] .mosaic img, body[data-page="lavender"] .feature__med
 }
 
 /* ---- Booking bar always tappable --------------------------- */
-.booking { position: relative; z-index: 5; }
+.booking { z-index: 5; }
