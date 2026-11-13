@@ -815,10 +815,12 @@ body[data-page="lavender"] .mosaic img, body[data-page="lavender"] .feature__med
   .hero__media { background: url("../assets/video/cavalli-hero-poster.jpg") center / cover no-repeat; }
 }
 
-/* Booking bar sits at the bottom edge of the hero so the video shows */
-.booking { bottom: clamp(1rem, 2.5vh, 1.75rem); }
+/* Booking bar sits directly under the hero buttons, grouped with the headline */
+.hero { flex-direction: column; }
+.booking { position: static; transform: none; left: auto; bottom: auto;
+  margin: clamp(1.5rem, 3.5vh, 2.5rem) auto 0; width: min(100% - 2rem, 60rem); }
 @media (min-width: 641px) {
-  .hero__inner { padding-top: 4rem; padding-bottom: 6rem; }
+  .hero__inner { padding-top: 4rem; padding-bottom: 0; }
   .hero h1 { font-size: min(var(--step-5), 10vh); }
 }
 @media (max-width: 780px) {
@@ -826,10 +828,9 @@ body[data-page="lavender"] .mosaic img, body[data-page="lavender"] .feature__med
   .booking__cta button { padding: .9rem 1rem; }
 }
 @media (max-width: 640px) {
-  .hero { display: flex; flex-direction: column; min-height: 100svh; }
-  .hero__inner { flex: 1; display: flex; flex-direction: column; justify-content: center;
-    padding-top: 6rem; padding-bottom: 1.5rem; }
-  .booking { margin: 0 auto 1rem; }
+  .hero { display: flex; justify-content: center; min-height: 100svh; padding-bottom: 1.5rem; }
+  .hero__inner { padding-top: 6rem; padding-bottom: 0; }
+  .booking { margin: 1.5rem auto 0; }
   .booking__field { padding: .75rem 1rem; gap: .2rem; }
   .booking__field input, .booking__field select { font-size: .9rem; }
 }
