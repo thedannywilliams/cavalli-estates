@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
-<link rel="preload" as="image" href="assets/img/twilight/Lavender-at-Sunset.jpg" />
+<link rel="preload" as="image" href="assets/video/lavender-hero-poster.jpg" />
 <link rel="stylesheet" href="css/style.css" />
 
 <script type="application/ld+json">
@@ -86,7 +86,12 @@
 
 <!-- Page hero -->
 <section class="page-hero">
-  <div class="page-hero__media"><img src="assets/img/twilight/Lavender-at-Sunset.jpg" alt="Cavalli's lavender fields glowing purple and gold at sunset beneath the Edna Valley hills" fetchpriority="high" /></div>
+  <div class="page-hero__media">
+    <video autoplay muted loop playsinline preload="auto" poster="assets/video/lavender-hero-poster.jpg" aria-label="The lavender farm at Cavalli Estates: long rows beneath the Edna Valley hills, harvested bundles drying under the barn eaves, and blooms at golden hour">
+      <source src="assets/video/lavender-hero-720.mp4" type="video/mp4" media="(max-width: 900px)" />
+      <source src="assets/video/lavender-hero-1080.mp4" type="video/mp4" />
+    </video>
+  </div>
   <div class="page-hero__inner">
     <nav class="breadcrumb"><a href="index.html">Home</a> <span aria-hidden="true">/</span> <span>Lavender</span></nav>
     <p class="eyebrow">The Lavender Farm</p>

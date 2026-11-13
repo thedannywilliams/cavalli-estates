@@ -834,3 +834,6 @@ body[data-page="lavender"] .mosaic img, body[data-page="lavender"] .feature__med
   .booking__field { padding: .75rem 1rem; gap: .2rem; }
   .booking__field input, .booking__field select { font-size: .9rem; }
 }
+
+/* Lavender page video hero: poster doubles as the reduced-motion still */
+body[data-page="lavender"] .page-hero__media { background: #2a2620 url("../assets/video/lavender-hero-poster.jpg") center / cover no-repeat; }
