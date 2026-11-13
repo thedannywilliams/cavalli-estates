@@ -419,3 +419,27 @@
     });
   });
 })();
+
+/* ============================================================
+   Feature photos click through to the page their link points to.
+   Skips inquiry/contact links, same-page anchors, and maps.
+   ============================================================ */
+(function () {
+  var here = location.pathname.split("/").pop() || "index.html";
+  document.querySelectorAll(".feature").forEach(function (feat) {
+    var fig = feat.querySelector(".feature__media");
+    if (!fig || !fig.querySelector("img") || fig.querySelector("a")) return;
+    var cta = feat.querySelector(".feature__body .cta-row a[href]");
+    if (!cta) return;
+    var href = cta.getAttribute("href");
+    var page = href.split("#")[0];
+    if (!/\.html$/.test(page) || page === here || page === "contact.html") return;
+    var heading = feat.querySelector(".feature__body h2");
+    var link = document.createElement("a");
+    link.className = "feature__link";
+    link.href = href;
+    link.tabIndex = -1;
+    link.setAttribute("aria-label", heading ? heading.textContent.trim() : cta.textContent.trim());
+    fig.appendChild(link);
+  });
+})();
