@@ -1,3 +1,6 @@
 .DS_Store
 .claude/
 *.log
+
+# Raw source footage (compressed web versions live alongside)
+assets/video/CAVALLI ESTATES HERO OPENING PAGE.mp4
