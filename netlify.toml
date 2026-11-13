@@ -30,3 +30,14 @@
   to = "/404.html"
   status = 404
   force = true
+
+# Vineyard page became the Tasting Room
+[[redirects]]
+  from = "/vineyard.html"
+  to = "/tasting-room.html"
+  status = 301
+
+[[redirects]]
+  from = "/vineyard"
+  to = "/tasting-room.html"
+  status = 301

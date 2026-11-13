@@ -849,3 +849,11 @@ body[data-page="lavender"] .page-hero__media { background: #2a2620 url("../asset
 .menu-list li:last-child { border-bottom: 0; }
 .menu-date { margin-top: var(--space-s); font-family: var(--sans); font-size: var(--step--2); letter-spacing: .24em; text-transform: uppercase; color: var(--ink-mute); }
 .photo-credit { margin-top: var(--space-m); text-align: center; font-family: var(--sans); font-size: var(--step--2); letter-spacing: .2em; text-transform: uppercase; color: var(--ink-mute); }
+
+/* Laptop widths: a touch tighter so both nav sides clear the wordmark */
+@media (min-width: 1200px) and (max-width: 1365px) {
+  .site-header__inner { gap: 1.1rem; }
+  .navlink { font-size: 0.62rem; letter-spacing: 0.07em; }
+  .nav-side { gap: 0.6rem; }
+  .btn-reserve { font-size: 0.58rem; letter-spacing: 0.1em; padding: 0.72em 0.8em; }
+}
