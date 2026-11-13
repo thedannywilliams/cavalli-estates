@@ -814,3 +814,22 @@ body[data-page="lavender"] .mosaic img, body[data-page="lavender"] .feature__med
   .hero__media video { display: none; }
   .hero__media { background: url("../assets/video/cavalli-hero-poster.jpg") center / cover no-repeat; }
 }
+
+/* Booking bar sits at the bottom edge of the hero so the video shows */
+.booking { bottom: clamp(1rem, 2.5vh, 1.75rem); }
+@media (min-width: 641px) {
+  .hero__inner { padding-top: 4rem; padding-bottom: 6rem; }
+  .hero h1 { font-size: min(var(--step-5), 10vh); }
+}
+@media (max-width: 780px) {
+  .booking__cta { grid-column: auto; }
+  .booking__cta button { padding: .9rem 1rem; }
+}
+@media (max-width: 640px) {
+  .hero { display: flex; flex-direction: column; min-height: 100svh; }
+  .hero__inner { flex: 1; display: flex; flex-direction: column; justify-content: center;
+    padding-top: 6rem; padding-bottom: 1.5rem; }
+  .booking { margin: 0 auto 1rem; }
+  .booking__field { padding: .75rem 1rem; gap: .2rem; }
+  .booking__field input, .booking__field select { font-size: .9rem; }
+}
