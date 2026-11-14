@@ -872,3 +872,34 @@ body[data-page="lavender"] .page-hero__media { background: #2a2620 url("../asset
 .dark .feature__body { text-align: left; }
 .dark .feature__body h2 { color: var(--ivory); text-align: left; }
 .assoc-name { margin: .6rem 0 var(--space-s); font-size: .74rem; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-soft); }
+
+/* ---- Logo (masked so it takes the header's current color) ---- */
+.brand-logo, .brand-wordmark {
+  display: block; background-color: currentColor;
+  -webkit-mask: var(--logo-src) center / contain no-repeat; mask: var(--logo-src) center / contain no-repeat;
+}
+.brand-logo { --logo-src: url("../assets/img/brand/cavalli-logo.png"); }
+.brand-wordmark { --logo-src: url("../assets/img/brand/cavalli-wordmark.png"); }
+
+.site-header .brand { gap: 0; align-items: center; }
+.site-header__inner { padding-block: clamp(1rem, 0.5rem + 1vw, 1.6rem); }
+.site-header .brand-logo {
+  --h: clamp(78px, 2.5rem + 4.4vw, 132px);
+  height: var(--h); width: calc(var(--h) * 1.347); opacity: 1;
+  transition: height .6s var(--ease), width .6s var(--ease), opacity .4s var(--ease);
+}
+.site-header .brand-wordmark {
+  height: 0; width: 0; opacity: 0;
+  transition: height .6s var(--ease), width .6s var(--ease), opacity .5s var(--ease) .1s;
+}
+.site-header.scrolled .brand-logo { height: 0; width: 0; opacity: 0; }
+.site-header.scrolled .brand-wordmark { height: 28px; width: calc(28px * 6.154); opacity: 1; }
+
+@media (max-width: 700px) {
+  .site-header .brand-logo { display: none; }
+  .site-header .brand-wordmark, .site-header.scrolled .brand-wordmark { height: 22px; width: calc(22px * 6.154); opacity: 1; }
+}
+
+.footer-logo { display: inline-flex; flex-direction: column; align-items: center; }
+.footer-logo .brand-logo { height: clamp(120px, 14vw, 170px); width: calc(clamp(120px, 14vw, 170px) * 1.347); }
+.footer-logo .brand-sub { margin-top: 1.4rem; }
