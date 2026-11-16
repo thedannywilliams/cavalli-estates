@@ -443,3 +443,58 @@
     fig.appendChild(link);
   });
 })();
+
+/* SLO-CDS chapter calendar on the Equestrian page (feed: /api/slocds-events, refreshed daily) */
+(function () {
+  var root = document.querySelector("[data-slocds-calendar]");
+  if (!root) return;
+  var list = root.querySelector("[data-cal-list]");
+  var recentWrap = root.querySelector("[data-cal-recent]");
+  var recentList = root.querySelector("[data-cal-recent-list]");
+  var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  function parts(iso) { var p = iso.split("-"); return { y: +p[0], m: +p[1] - 1, d: +p[2] }; }
+  function dateBlock(e) {
+    if (e.dateLabel) { var bits = e.dateLabel.split(" "); return { top: bits[0].slice(0, 3), mid: "", bot: bits[1] || "" }; }
+    var a = parts(e.start), b = parts(e.end || e.start);
+    var mid = String(a.d);
+    if (b.d !== a.d || b.m !== a.m) mid += "–" + (b.m !== a.m ? MONTHS[b.m] + " " : "") + b.d;
+    return { top: MONTHS[a.m], mid: mid, bot: String(a.y) };
+  }
+  function text(tag, cls, t) { var n = document.createElement(tag); if (cls) n.className = cls; if (t) n.textContent = t; return n; }
+  function item(e) {
+    var li = text("li", "chapter-cal__item" + (e.atCavalli ? " is-cavalli" : ""));
+    var d = dateBlock(e);
+    var date = text("div", "chapter-cal__date");
+    date.appendChild(text("span", "m", d.top));
+    if (d.mid) date.appendChild(text("span", "d", d.mid));
+    date.appendChild(text("span", "y", d.bot));
+    var body = text("div", "chapter-cal__body");
+    var tags = text("p", "chapter-cal__tags");
+    tags.appendChild(text("span", null, e.kind.charAt(0).toUpperCase() + e.kind.slice(1)));
+    if (e.chapterHosted) tags.appendChild(text("span", null, "Chapter event"));
+    if (e.atCavalli) tags.appendChild(text("span", "gold", "At Cavalli"));
+    body.appendChild(tags);
+    var h = text("h4"); var a = text("a", null, e.title); a.href = e.url; a.target = "_blank"; a.rel = "noopener"; h.appendChild(a);
+    body.appendChild(h);
+    var meta = [e.time, e.venue].filter(Boolean).join(" · ");
+    if (meta) body.appendChild(text("p", "chapter-cal__meta", meta));
+    if (e.summary) body.appendChild(text("p", "chapter-cal__summary", e.summary));
+    li.appendChild(date); li.appendChild(body);
+    return li;
+  }
+  fetch("/api/slocds-events").then(function (r) { return r.json(); }).then(function (data) {
+    list.innerHTML = "";
+    (data.upcoming || []).forEach(function (e) { list.appendChild(item(e)); });
+    if (!(data.upcoming || []).length) {
+      list.appendChild(text("li", "chapter-cal__empty", "New chapter dates are being set. Check back soon, or see the full chapter calendar."));
+    }
+    if ((data.recent || []).length && (data.upcoming || []).length < 4) {
+      data.recent.forEach(function (e) { recentList.appendChild(item(e)); });
+      recentWrap.hidden = false;
+    }
+    if (data.source) root.querySelector("[data-cal-source]").href = data.source;
+  }).catch(function () {
+    list.innerHTML = "";
+    list.appendChild(text("li", "chapter-cal__empty", "The chapter calendar could not load right now. See the full calendar on the chapter's site."));
+  });
+})();

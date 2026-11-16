@@ -987,3 +987,93 @@ body[data-page="lavender"] .page-hero__media { background: #2a2620 url("../asset
   .site-header.scrolled .brand-mark { height: 30px; width: calc(30px * 1.083); }
   .site-header.scrolled .brand-wordmark { height: 17px; width: calc(17px * 6.154); opacity: 1; }
 }
+
+/* ---- Equestrian: association line + SLO-CDS chapter calendar ---- */
+.assoc-hero { margin-top: var(--space-s); font-family: var(--sans); font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; }
+.assoc-hero a { color: var(--gold-soft); border-bottom: 1px solid color-mix(in srgb, var(--gold-soft) 50%, transparent); padding-bottom: .25em; }
+.assoc-hero a:hover { color: var(--ivory); border-color: var(--ivory); }
+.chapter-cal { max-width: 52rem; margin: clamp(3.5rem, 7vw, 6rem) auto 0; }
+.chapter-cal__head { text-align: center; margin-bottom: var(--space-m); }
+.chapter-cal__head h3 { font-family: var(--serif); font-weight: 300; font-size: var(--step-3, 2.2rem); color: var(--ivory); margin-top: .6rem; }
+.chapter-cal__sub { max-width: 36rem; margin: .8rem auto 0; font-size: var(--step--1); color: color-mix(in srgb, var(--ivory) 70%, transparent); }
+.chapter-cal__list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--hair-light); }
+.chapter-cal__item { display: grid; grid-template-columns: 5.5rem 1fr; gap: clamp(1rem, 3vw, 2.2rem); padding: 1.5rem 0; border-bottom: 1px solid var(--hair-light); }
+.chapter-cal__item.is-cavalli { background: color-mix(in srgb, var(--gold) 9%, transparent); padding-inline: 1rem; margin-inline: -1rem; }
+.chapter-cal__date { display: grid; justify-items: center; align-content: start; text-align: center; border-right: 1px solid var(--hair-light); padding-right: 1rem; }
+.chapter-cal__date .m { font-family: var(--sans); font-size: .66rem; letter-spacing: .24em; text-transform: uppercase; color: var(--gold-soft); }
+.chapter-cal__date .d { font-family: var(--serif); font-weight: 300; font-size: 1.9rem; line-height: 1.1; color: var(--ivory); white-space: nowrap; }
+.chapter-cal__date .y { font-family: var(--sans); font-size: .62rem; letter-spacing: .16em; color: color-mix(in srgb, var(--ivory) 55%, transparent); }
+.chapter-cal__tags { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0 0 .45rem; }
+.chapter-cal__tags span { font-family: var(--sans); font-size: .58rem; letter-spacing: .18em; text-transform: uppercase; color: color-mix(in srgb, var(--ivory) 70%, transparent); border: 1px solid var(--hair-light); padding: .3em .7em; }
+.chapter-cal__tags span.gold { color: var(--char); background: var(--gold-soft); border-color: var(--gold-soft); }
+.chapter-cal__body h4 { font-family: var(--serif); font-weight: 400; font-size: clamp(1.25rem, 1.1rem + .5vw, 1.6rem); line-height: 1.25; color: var(--ivory); }
+.chapter-cal__body h4 a:hover { color: var(--gold-soft); }
+.chapter-cal__meta { margin-top: .35rem; font-size: .8rem; color: color-mix(in srgb, var(--ivory) 72%, transparent); }
+.chapter-cal__summary { margin-top: .5rem; font-size: .84rem; line-height: 1.6; color: color-mix(in srgb, var(--ivory) 64%, transparent); max-width: 40rem; }
+.chapter-cal__empty { padding: 1.5rem 0; text-align: center; color: color-mix(in srgb, var(--ivory) 65%, transparent); font-family: var(--serif); font-style: italic; font-size: 1.1rem; border-bottom: 1px solid var(--hair-light); }
+.chapter-cal__recent { margin-top: var(--space-m); }
+.chapter-cal__label { font-family: var(--sans); font-size: .62rem; letter-spacing: .24em; text-transform: uppercase; color: color-mix(in srgb, var(--ivory) 55%, transparent); margin-bottom: .6rem; }
+.chapter-cal__list.is-past .chapter-cal__item { opacity: .62; }
+.chapter-cal__foot { text-align: center; margin-top: var(--space-m); }
+.chapter-cal__foot a { font-family: var(--sans); font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-soft); border-bottom: 1px solid color-mix(in srgb, var(--gold-soft) 50%, transparent); padding-bottom: .3em; }
+@media (max-width: 560px) {
+  .chapter-cal__item { grid-template-columns: 4.2rem 1fr; }
+  .chapter-cal__date .d { font-size: 1.45rem; }
+}
+
+/* ============================================================
+   Header +20% (Nov 2026) and phone menu fixes
+   ============================================================ */
+.site-header__inner { padding-block: clamp(1.4rem, 0.8rem + 1.2vw, 2.1rem); }
+.site-header .brand-logo { --h: clamp(94px, 3rem + 5.3vw, 158px); }
+.site-header.scrolled .brand-mark { height: 46px; width: calc(46px * 1.083); }
+.site-header.scrolled .brand-wordmark { height: 34px; width: calc(34px * 6.154); }
+@media (min-width: 1600px) {
+  .navlink { font-size: 0.96rem; }
+  .btn-reserve { font-size: 0.88rem; }
+}
+@media (min-width: 1366px) and (max-width: 1599px) {
+  .navlink { font-size: 0.86rem; }
+  .btn-reserve { font-size: 0.8rem; }
+}
+
+/* Menu icon: three crisp 1.5px bars on whole pixels, 44px tap target */
+.nav-toggle { width: 44px; height: 44px; justify-content: center; gap: 0; font-size: 0; margin-left: -10px; }
+.nav-toggle .bars { width: 24px; height: 15px; display: block; position: relative; }
+.nav-toggle .bars span { position: absolute; left: 0; width: 100%; height: 1.5px; background: currentColor; border-radius: 1px; transform-origin: center; }
+.nav-toggle .bars span:nth-child(1) { top: 0; }
+.nav-toggle .bars span:nth-child(2) { top: 6.75px; }
+.nav-toggle .bars span:nth-child(3) { top: 13.5px; }
+body.menu-open .nav-toggle .bars span:nth-child(1) { transform: translateY(6.75px) rotate(45deg); }
+body.menu-open .nav-toggle .bars span:nth-child(3) { transform: translateY(-6.75px) rotate(-45deg); }
+@media (min-width: 701px) { .nav-toggle { width: auto; font-size: 0.66rem; gap: .7rem; margin-left: 0; } }
+
+/* Open menu: header stays on top (so X closes it), compact logo, items clear the header */
+body.menu-open .site-header { z-index: 140; color: var(--ivory); }
+body.menu-open .site-header.scrolled { background: transparent; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+body.menu-open .site-header::before { opacity: 0; }
+.nav-mobile { z-index: 135; justify-content: flex-start; overflow-y: auto; padding: 9.5rem 2rem 3rem; gap: .55rem; }
+.nav-mobile a { font-size: clamp(1.55rem, 6.4vw, 2.6rem); }
+@media (min-height: 900px) { .nav-mobile { justify-content: center; } }
+
+/* Phones: logo 20% larger */
+@media (max-width: 700px) {
+  .site-header .brand-logo { --h: 89px; }
+  .site-header.scrolled .brand-mark { height: 36px; width: calc(36px * 1.083); }
+  .site-header.scrolled .brand-wordmark { height: 20px; width: calc(20px * 6.154); }
+  .site-header__inner { padding-block: 1rem; }
+  body.menu-open .site-header .brand-logo { height: 0; width: 0; opacity: 0; }
+  body.menu-open .site-header .brand { flex-direction: row; gap: .5rem; }
+  body.menu-open .site-header .brand-mark { height: 36px; width: calc(36px * 1.083); opacity: 1; }
+  body.menu-open .site-header .brand-wordmark { height: 20px; width: calc(20px * 6.154); opacity: 1; }
+  .nav-mobile { padding-top: 7rem; }
+}
+@media (min-width: 641px) {
+  .hero__inner { padding-top: clamp(6rem, 4rem + 4vh, 8rem); }
+}
+@media (min-width: 701px) {
+  .page-hero { padding-top: clamp(12rem, 9rem + 6vh, 15rem); }
+}
+@media (max-width: 700px) {
+  .page-hero { padding-top: 9rem; }
+}
