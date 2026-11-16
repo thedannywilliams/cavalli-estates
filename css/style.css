@@ -1077,3 +1077,5 @@ body.menu-open .site-header::before { opacity: 0; }
 @media (max-width: 700px) {
   .page-hero { padding-top: 9rem; }
 }
+.dark .feature__body h2.assoc-title { font-size: clamp(1.9rem, 1.3rem + 2.2vw, 3.1rem); line-height: 1.12; margin-bottom: var(--space-s); }
+.assoc-title__lead { display: block; font-size: .5em; letter-spacing: .14em; color: var(--gold-soft); margin-bottom: .5em; }
