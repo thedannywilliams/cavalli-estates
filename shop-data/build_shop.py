@@ -50,7 +50,8 @@ def money(x):
     return "$%.2f" % x
 
 
-records = [product_record(p) for p in PRODUCTS]
+# Products marked hidden=True in catalog.py stay off the site and out of the Shopify CSV.
+records = [product_record(p) for p in PRODUCTS if not p.get("hidden")]
 
 # ---------------------------------------------------------------- shop.html
 cards = []

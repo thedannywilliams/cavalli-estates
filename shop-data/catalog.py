@@ -200,6 +200,9 @@ PRODUCTS = [
         options=[],
     ),
     dict(
+        # Hidden 2026-11-16: every pony and bird is one of a kind, so the
+        # site and Etsy can't share stock. Set hidden=False to bring it back.
+        hidden=True,
         etsy="4533731961", handle="lavender-pony-and-bird", collection="sachets",
         title="Lavender Pony & Bird", price=15.00, tag="One of a kind",
         blurb="A handmade pony or bird filled with estate lavender, each with its own name.",
