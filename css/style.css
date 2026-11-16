@@ -1079,3 +1079,21 @@ body.menu-open .site-header::before { opacity: 0; }
 }
 .dark .feature__body h2.assoc-title { font-size: clamp(1.9rem, 1.3rem + 2.2vw, 3.1rem); line-height: 1.12; margin-bottom: var(--space-s); }
 .assoc-title__lead { display: block; font-size: .5em; letter-spacing: .14em; color: var(--gold-soft); margin-bottom: .5em; }
+
+/* Balanced header: larger Reserve on desktop */
+.nav-side .btn-reserve { font-size: 0.8rem; padding: 1.05em 2.1em; letter-spacing: 0.26em; }
+@media (min-width: 1366px) and (max-width: 1599px) { .nav-side .btn-reserve { font-size: 0.86rem; } }
+@media (min-width: 1600px) { .nav-side .btn-reserve { font-size: 0.95rem; padding: 1.1em 2.3em; } }
+@media (min-width: 1200px) and (max-width: 1365px) { .nav-side .btn-reserve { font-size: 0.64rem; padding: 0.95em 1.4em; letter-spacing: 0.18em; } }
+/* Each menu spreads across its half, so both sides mirror around the logo */
+@media (min-width: 1200px) {
+  .nav-side.left, .nav-side.right { justify-self: stretch; justify-content: space-between; }
+}
+@media (min-width: 1600px) { .site-header__inner.wrap-wide { width: min(100% - 5rem, 1880px); } }
+@media (min-width: 1200px) and (max-width: 1365px) { .nav-side .btn-reserve { font-size: 0.7rem; padding: 1em 2em; letter-spacing: 0.22em; } }
+@media (min-width: 1366px) and (max-width: 1599px) { .nav-side .btn-reserve { font-size: 0.95rem; padding: 1.05em 2.6em; letter-spacing: 0.28em; } }
+@media (min-width: 1600px) { .nav-side .btn-reserve { font-size: 1.05rem; padding: 1.1em 2.8em; letter-spacing: 0.28em; } }
+@media (min-width: 1366px) and (max-width: 1499px) {
+  .navlink { font-size: 0.78rem; letter-spacing: 0.13em; }
+  .nav-side .btn-reserve { font-size: 0.86rem; padding: 1em 2.3em; }
+}
