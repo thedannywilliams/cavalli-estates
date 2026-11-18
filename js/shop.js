@@ -65,7 +65,26 @@
     });
   }
 
+  // Live catalog: every published product, used by bag.js to keep the shop
+  // page in step with Shopify (new products, prices, photos, sold out).
+  var PRODUCTS_Q = "query($after:String){products(first:100,after:$after,sortKey:CREATED_AT,reverse:true){pageInfo{hasNextPage endCursor}" +
+    "nodes{handle title productType tags descriptionHtml options{name optionValues{name}}" +
+    " images(first:12){nodes{url altText}} variants(first:100){nodes{availableForSale price{amount} selectedOptions{name value}}}}}}";
+
+  function allProducts() {
+    var out = [];
+    function page(after, n) {
+      return gql(PRODUCTS_Q, { after: after }).then(function (d) {
+        out = out.concat(d.products.nodes);
+        if (d.products.pageInfo.hasNextPage && n < 10) return page(d.products.pageInfo.endCursor, n + 1);
+        return out;
+      });
+    }
+    return page(null, 1);
+  }
+
   window.CavalliShopify = {
+    products: allProducts,
     enabled: CONFIG.enabled && CONFIG.domain.indexOf("REPLACE_ME") === -1,
     checkout: function (items) {
       return Promise.all(items.map(variantFor)).then(function (lines) {

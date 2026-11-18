@@ -30,3 +30,18 @@ Sold out on Etsy at import: Ralph the pony, Lavender Rose bath salts. They impor
 with 0 inventory and show as sold out on the site.
 
 Once Shopify checkout is live, the Etsy shop can be closed.
+
+## Live sync with Shopify (since 2026-11-18)
+
+The shop page reads the live product list from Shopify on every visit
+(js/shop.js `products()`, applied in js/bag.js `syncFromShopify`).
+Shopify is the source of truth:
+
+- New products appear at the top of the shop, tagged "New", in the filter
+  whose name matches the product's Type in Shopify (e.g. "Gift Sets").
+- Name, price, options, photos, description and sold-out state follow Shopify.
+- Products deleted or unpublished in Shopify disappear from the site.
+- Tag a product `hide-from-website` in Shopify to keep it off the site.
+- Reviews, short card blurbs and card tags come from catalog.py /
+  etsy-reviews.json (run build_shop.py to refresh the built copy, which is
+  what search engines and visitors without JavaScript see).

@@ -17,17 +17,43 @@
   var CATALOG = {};
   try { CATALOG = JSON.parse(catalogEl ? catalogEl.textContent : "{}"); } catch (e) {}
 
+  // Price and availability for a product and a list of chosen option values.
+  // Products synced from Shopify carry exact variants; the built-in catalog
+  // falls back to per-value prices.
+  function variantOf(p, vals) {
+    if (!p.variants || p.notes) return null;
+    return p.variants.find(function (v) {
+      return v.vals.length === vals.length && vals.every(function (x, k) { return v.vals[k] === x; });
+    }) || null;
+  }
+  function priceOf(p, vals) {
+    var v = variantOf(p, vals);
+    if (v) return v.price;
+    var price = p.price;
+    vals.forEach(function (val, k) {
+      var o = p.options[k];
+      var hit = o && o.values.find(function (x) { return x.v === val; });
+      if (hit && hit.p != null) price = hit.p;
+    });
+    return price;
+  }
+  function isOut(p, vals) {
+    var v = variantOf(p, vals);
+    if (v) return v.out;
+    if (p.variants && p.notes) return p.variants.every(function (x) { return x.out; });
+    return vals.some(function (val, k) {
+      var o = p.options[k];
+      var hit = o && o.values.find(function (x) { return x.v === val; });
+      return hit && hit.out;
+    });
+  }
+
   // Bags saved before a catalog update can hold old photo paths, names or
   // prices, so every read refreshes them from the current catalog.
   function fresh(i) {
     var p = CATALOG[i.slug];
     var vals = i.variant ? i.variant.split(" / ") : [];
-    var price = p.price;
-    vals.forEach(function (v, k) {
-      var o = p.options[k];
-      var hit = o && o.values.find(function (x) { return x.v === v; });
-      if (hit && hit.p != null) price = hit.p;
-    });
+    var price = priceOf(p, vals);
     i.img = p.card;
     i.name = p.title;
     i.price = price;
@@ -130,12 +156,9 @@
   function chosen() {
     return selects.map(function (s, i) { return current.options[i].values[s.selectedIndex]; });
   }
-  function unitPrice() {
-    var p = current.price;
-    chosen().forEach(function (v) { if (v && v.p != null) p = v.p; });
-    return p;
-  }
-  function soldOut() { return chosen().some(function (v) { return v && v.out; }); }
+  function chosenVals() { return chosen().map(function (v) { return v ? v.v : ""; }); }
+  function unitPrice() { return priceOf(current, chosenVals()); }
+  function soldOut() { return isOut(current, chosenVals()); }
   function refresh() {
     mQty.textContent = qty;
     mSubtotal.textContent = money(unitPrice() * qty);
@@ -223,19 +246,15 @@
     document.body.style.overflow = "";
   }
 
-  document.querySelectorAll(".product").forEach(function (card) {
-    var buy = card.querySelector("[data-product]");
-    if (!buy) return;
-    var slug = buy.getAttribute("data-product");
-    var open = function () { openModal(slug); };
-    [card.querySelector(".product__media"), card.querySelector(".product__name")].forEach(function (n) {
-      if (!n) return;
-      n.style.cursor = "pointer";
-      n.addEventListener("click", open);
+  var grid = document.querySelector(".products");
+  if (grid) {
+    grid.addEventListener("click", function (e) {
+      var hit = e.target.closest("[data-open-product], .product__media, .product__name");
+      if (!hit) return;
+      var buy = hit.closest(".product") && hit.closest(".product").querySelector("[data-product]");
+      if (buy) openModal(buy.getAttribute("data-product"));
     });
-    var btn = card.querySelector("[data-open-product]");
-    if (btn) btn.addEventListener("click", open);
-  });
+  }
 
   overlay.addEventListener("click", function (e) { if (e.target.closest("[data-close]")) closeModal(); });
   overlay.querySelector("[data-qty-minus]").addEventListener("click", function () { qty = Math.max(1, qty - 1); refresh(); });
@@ -355,4 +374,137 @@
   });
 
   renderBadge();
+
+  /* ---------- Live sync with Shopify ----------
+     Shopify is the source of truth. The page ships with a built copy of the
+     catalog (fast first paint, search engines, and a fallback if Shopify is
+     unreachable); on load we fetch the live product list and redraw the
+     grid. New products appear, removed or unpublished ones disappear, and
+     names, prices, photos, descriptions and sold-out states follow Shopify.
+     Products tagged "hide-from-website" in Shopify are skipped. Reviews,
+     short blurbs and collection placement come from the built catalog. */
+  function fileOf(url) { return (url.split("?")[0].split("/").pop() || "").toLowerCase(); }
+  function shopifyImg(url, w, h) {
+    return url + (url.indexOf("?") === -1 ? "?" : "&") + "width=" + w + (h ? "&height=" + h + "&crop=center" : "");
+  }
+  function textBits(html) {
+    var doc = new DOMParser().parseFromString(html || "", "text/html");
+    var ps = [].map.call(doc.querySelectorAll("p"), function (n) { return n.textContent.trim(); }).filter(Boolean);
+    var lis = [].map.call(doc.querySelectorAll("li"), function (n) { return n.textContent.trim(); }).filter(Boolean);
+    if (!ps.length && !lis.length && doc.body.textContent.trim()) ps = [doc.body.textContent.trim()];
+    return { body: ps, details: lis };
+  }
+  var COLL_NAMES = {};
+  filters.forEach(function (b) {
+    var k = b.getAttribute("data-filter");
+    if (k !== "all") COLL_NAMES[b.childNodes[0].textContent.trim().toLowerCase()] = k;
+  });
+
+  function recordFrom(n, base) {
+    var real = n.options.filter(function (o) { return !(o.name === "Title" && o.optionValues.length === 1 && o.optionValues[0].name === "Default Title"); });
+    var variants = n.variants.nodes.map(function (v) {
+      return {
+        vals: v.selectedOptions.filter(function (o) { return o.value !== "Default Title"; }).map(function (o) { return o.value; }),
+        price: parseFloat(v.price.amount), out: !v.availableForSale
+      };
+    });
+    var live = variants.filter(function (v) { return !v.out; });
+    var prices = (live.length ? live : variants).map(function (v) { return v.price; });
+    var low = Math.min.apply(null, prices), high = Math.max.apply(null, prices);
+    var notes = !!(base && base.notes);
+    var options = notes ? base.options : real.map(function (o, k) {
+      return { name: o.name, values: o.optionValues.map(function (ov) {
+        var vs = variants.filter(function (v) { return v.vals[k] === ov.name; });
+        var ps = vs.map(function (v) { return v.price; });
+        var same = ps.length && ps.every(function (x) { return x === ps[0]; });
+        return { v: ov.name, p: same && low !== high ? ps[0] : null, out: vs.length > 0 && vs.every(function (v) { return v.out; }) };
+      }) };
+    });
+    // Photos: keep the site's optimized copies when Shopify still has the same
+    // files (same names, same count); otherwise use Shopify's photos.
+    var shots = n.images.nodes.map(function (i) { return i.url; });
+    var same = base && shots.length === base.images.length && shots.every(function (u, k) {
+      return fileOf(u) === (base.handle + "-" + (k + 1) + ".jpg");
+    });
+    var images = same ? base.images : shots.map(function (u) { return shopifyImg(u, 1200); });
+    var card = same ? base.card : (shots[0] ? shopifyImg(shots[0], 900, 1125) : (base ? base.card : ""));
+    var txt = textBits(n.descriptionHtml);
+    var collection = base ? base.collection : (COLL_NAMES[(n.productType || "").toLowerCase()] || "other");
+    var firstLine = ((txt.body[0] || "").match(/^.*?[.!?](?=\s|$)/) || [txt.body[0] || ""])[0];
+    return {
+      handle: n.handle, title: n.title, notes: notes, variants: variants,
+      tag: base ? base.tag : "New", isNew: !base,
+      collection: collection, collectionName: base ? base.collectionName : (n.productType || "Lavender Shop"),
+      price: low, low: low, high: high,
+      blurb: base ? base.blurb : (firstLine.length > 120 ? firstLine.slice(0, 117) + "..." : firstLine),
+      body: txt.body.length ? txt.body : (base ? base.body : []),
+      details: txt.details.length ? txt.details : (base ? base.details : []),
+      options: options, card: card, images: images.length ? images : (base ? base.images : []),
+      rating: base ? base.rating : null, reviewCount: base ? base.reviewCount : 0, reviews: base ? base.reviews : []
+    };
+  }
+
+  function cardFor(r) {
+    var a = el("article", "product");
+    a.setAttribute("data-collection", r.collection);
+    var media = el("div", "product__media");
+    var im = el("img"); im.src = r.card; im.alt = r.title + ", from the Cavalli lavender farm"; im.loading = "lazy"; im.width = 900; im.height = 1125;
+    media.appendChild(im);
+    media.appendChild(el("span", "product__tag", r.tag));
+    a.appendChild(media);
+    var mark = el("img", "product__mark"); mark.src = "assets/img/brand/icon-192.png"; mark.alt = ""; mark.setAttribute("aria-hidden", "true"); mark.loading = "lazy";
+    a.appendChild(mark);
+    a.appendChild(el("h3", "product__name", r.title));
+    a.appendChild(el("p", "product__desc", r.blurb));
+    if (r.reviewCount) {
+      var rt = el("p", "product__rating");
+      rt.setAttribute("aria-label", "Rated " + r.rating.toFixed(1) + " out of 5 from " + r.reviewCount + (r.reviewCount === 1 ? " review" : " reviews"));
+      var st = el("span", null, "\u2605"); st.setAttribute("aria-hidden", "true");
+      rt.appendChild(st); rt.appendChild(document.createTextNode(" " + r.rating.toFixed(1) + " "));
+      rt.appendChild(el("span", null, "(" + r.reviewCount + ")"));
+      a.appendChild(rt);
+    }
+    var allOut = r.variants.every(function (v) { return v.out; });
+    a.appendChild(el("p", "product__price", allOut ? "Sold out" : (r.low === r.high ? money(r.low) : "From " + money(r.low))));
+    var buy = el("div", "product__buy"); buy.setAttribute("data-product", r.handle);
+    var b = el("button", "btn gold"); b.type = "button"; b.setAttribute("data-open-product", "");
+    b.appendChild(el("span", null, "View Item"));
+    buy.appendChild(b); a.appendChild(buy);
+    return a;
+  }
+
+  function syncFromShopify(nodes) {
+    var order = Object.keys(CATALOG);
+    var next = {};
+    nodes.forEach(function (n) {
+      if ((n.tags || []).some(function (t) { return t.toLowerCase() === "hide-from-website"; })) return;
+      next[n.handle] = recordFrom(n, CATALOG[n.handle]);
+    });
+    if (!Object.keys(next).length) return; // never blank the shop on an empty answer
+    // New products first (newest first), then the familiar order.
+    var handles = Object.keys(next).filter(function (h) { return next[h].isNew; })
+      .concat(order.filter(function (h) { return next[h] && !next[h].isNew; }));
+    Object.keys(CATALOG).forEach(function (k) { delete CATALOG[k]; });
+    handles.forEach(function (h) { CATALOG[h] = next[h]; });
+
+    if (grid) {
+      var frag = document.createDocumentFragment();
+      handles.forEach(function (h) { frag.appendChild(cardFor(CATALOG[h])); });
+      grid.innerHTML = "";
+      grid.appendChild(frag);
+    }
+    var on = document.querySelector(".shop-filter.is-on");
+    filters.forEach(function (btn) {
+      var f = btn.getAttribute("data-filter");
+      var n = handles.filter(function (h) { return f === "all" || CATALOG[h].collection === f; }).length;
+      var c = btn.querySelector("span"); if (c) c.textContent = n;
+    });
+    if (on) on.click();
+    renderBadge();
+    if (drawer.classList.contains("open")) renderBag();
+  }
+
+  if (grid && window.CavalliShopify && window.CavalliShopify.enabled && window.CavalliShopify.products) {
+    window.CavalliShopify.products().then(syncFromShopify).catch(function () { /* keep the built catalog */ });
+  }
 })();
