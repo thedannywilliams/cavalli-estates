@@ -342,6 +342,24 @@ PRODUCTS = [
         ],
     ),
     dict(
+        # notes=True: the scent picks travel to Shopify as order notes on a
+        # single variant, instead of 216 scent combinations.
+        notes=True,
+        etsy="4618848757", handle="linen-mist-set", collection="gifts", featured=True,
+        title="Linen Mist Set, Gift Box", price=35.00, tag="Choose 3 scents",
+        blurb="Three estate linen mists of your choosing, boxed for gifting.",
+        body=[
+            "Choose your three favorite scents to make a personal set. Our linen mists freshen bedding, linens, towels, and living spaces with a light, natural fragrance.",
+            "Each set arrives beautifully packaged in a gift box, ready to give.",
+        ],
+        details=["Three linen mists, your choice of scents, in a gift box", "No. 00 Pure Bliss: lavender", "No. 01 Evening Calm: lavender, chamomile, cedarwood", "No. 02 Citrus Grove: lavender, bergamot, lemon, orange", "No. 03 Rose Petal: lavender, rose, bergamot", "No. 04 Golden Dust: lavender, chamomile, bergamot, sweet orange, sandalwood", "No. 05 Coastal Grove: lavender, lemon, eucalyptus, rosemary"],
+        options=[
+            ("Scent 1", ["No. 00 Pure Bliss", "No. 01 Evening Calm", "No. 02 Citrus Grove", "No. 03 Rose Petal", "No. 04 Golden Dust", "No. 05 Coastal Grove"]),
+            ("Scent 2", ["No. 00 Pure Bliss", "No. 01 Evening Calm", "No. 02 Citrus Grove", "No. 03 Rose Petal", "No. 04 Golden Dust", "No. 05 Coastal Grove"]),
+            ("Scent 3", ["No. 00 Pure Bliss", "No. 01 Evening Calm", "No. 02 Citrus Grove", "No. 03 Rose Petal", "No. 04 Golden Dust", "No. 05 Coastal Grove"]),
+        ],
+    ),
+    dict(
         etsy="4375980171", handle="soap-gift-set", collection="gifts",
         title="Handmade Soap Gift Set", price=15.00, tag="Boxed",
         blurb="A lavender bar, a mini oatmeal bar, and your choice of lilac or gardenia, boxed.",

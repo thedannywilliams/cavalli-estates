@@ -55,11 +55,13 @@
       var want = item.options || [];
       var v = nodes.find(function (n) {
         var vals = n.selectedOptions.map(function (o) { return o.value; }).filter(function (x) { return x !== "Default Title"; });
-        return vals.length === want.length && want.every(function (w) { return vals.indexOf(w) !== -1; });
+        return vals.length === want.length && want.every(function (w, k) { return vals[k] === w; });
       }) || (want.length ? null : nodes[0]);
       if (!v) throw new Error(item.name + " (" + item.variant + ") was not found in Shopify");
       if (!v.availableForSale) throw new Error(item.name + " is sold out");
-      return { merchandiseId: v.id, quantity: item.qty };
+      var line = { merchandiseId: v.id, quantity: item.qty };
+      if (item.attrs && item.attrs.length) line.attributes = item.attrs;
+      return line;
     });
   }
 

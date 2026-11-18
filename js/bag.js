@@ -68,6 +68,7 @@
     '    <button class="btn gold pmodal__add" type="button" data-add><span>Add to Bag</span></button>' +
     '    <div class="pmodal__copy" data-m-body></div>' +
     '    <ul class="pmodal__details" data-m-details></ul>' +
+    '    <div class="pmodal__reviews" data-m-reviews hidden></div>' +
     '  </div>' +
     '</div>';
   document.body.appendChild(overlay);
@@ -81,6 +82,10 @@
     '  <p class="bag-drawer__total">Subtotal <b data-bag-total>$0.00</b></p>' +
     '  <a class="btn gold" data-bag-checkout href="#"><span data-bag-checkout-label>Email Your Order</span></a>' +
     '  <p class="pmodal__note" data-bag-note>Email your order and our team will confirm availability, payment, and pickup or shipping.</p>' +
+    '  <ul class="pay-marks pay-marks--sm" aria-label="We accept all major credit and debit cards">' +
+    [["visa", "Visa"], ["mastercard", "Mastercard"], ["americanexpress", "American Express"], ["discover", "Discover"]].map(function (c) {
+      return '<li class="pay-mark"><img src="assets/img/pay/' + c[0] + '.svg" alt="' + c[1] + '" /></li>';
+    }).join("") + '</ul>' +
     '</div>';
   document.body.appendChild(drawer);
 
@@ -101,6 +106,7 @@
   var mOpts = overlay.querySelector("[data-m-opts]");
   var mBody = overlay.querySelector("[data-m-body]");
   var mDetails = overlay.querySelector("[data-m-details]");
+  var mReviews = overlay.querySelector("[data-m-reviews]");
   var mQty = overlay.querySelector("[data-m-qty]");
   var mSubtotal = overlay.querySelector("[data-m-subtotal]");
   var mAdd = overlay.querySelector("[data-add]");
@@ -174,6 +180,23 @@
     mDetails.innerHTML = "";
     current.details.forEach(function (d) { mDetails.appendChild(el("li", null, d)); });
 
+    mReviews.innerHTML = "";
+    mReviews.hidden = !current.reviewCount;
+    if (current.reviewCount) {
+      var head = el("p", "pmodal__reviews-head");
+      head.appendChild(el("span", "pmodal__reviews-stars", "\u2605 " + current.rating.toFixed(1)));
+      head.appendChild(document.createTextNode(" \u00b7 " + current.reviewCount + (current.reviewCount === 1 ? " review" : " reviews")));
+      mReviews.appendChild(head);
+      current.reviews.forEach(function (r) {
+        var f = el("figure", "pmodal__review");
+        f.appendChild(el("p", "pmodal__review-stars", "\u2605\u2605\u2605\u2605\u2605".slice(0, r.r)));
+        f.lastChild.setAttribute("aria-label", "Rated " + r.r + " out of 5");
+        f.appendChild(el("blockquote", null, "\u201c" + r.t + "\u201d"));
+        f.appendChild(el("figcaption", null, r.n + " \u00b7 " + r.d));
+        mReviews.appendChild(f);
+      });
+    }
+
     refresh();
     overlay.classList.add("open");
     document.body.style.overflow = "hidden";
@@ -211,7 +234,11 @@
     var match = items.find(function (i) { return i.slug === current.handle && i.variant === variant; });
     if (match) { match.qty = Math.min(20, match.qty + qty); }
     else {
-      items.push({ slug: current.handle, name: current.title, variant: variant, options: vals,
+      // notes products (e.g. the Linen Mist Set) are one Shopify variant;
+      // the choices travel as order notes (cart line attributes).
+      items.push({ slug: current.handle, name: current.title, variant: variant,
+        options: current.notes ? [] : vals,
+        attrs: current.notes ? current.options.map(function (o, k) { return { key: o.name, value: vals[k] }; }) : null,
         price: unitPrice(), img: current.card, qty: qty });
     }
     writeBag(items);
@@ -262,7 +289,7 @@
 
     if (shopify()) {
       checkoutLabel.textContent = "Checkout";
-      noteEl.textContent = "Secure checkout by Shopify. Shipping and tax are calculated at checkout.";
+      noteEl.textContent = "Secure checkout by Shopify. We accept all major credit and debit cards. Shipping and tax are calculated at checkout.";
       checkoutEl.href = "#";
     } else {
       checkoutLabel.textContent = "Email Your Order";

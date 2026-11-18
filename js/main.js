@@ -498,3 +498,73 @@
     list.appendChild(text("li", "chapter-cal__empty", "The chapter calendar could not load right now. See the full calendar on the chapter's site."));
   });
 })();
+
+/* ============================================================
+   Cookie consent
+   ------------------------------------------------------------
+   The site sets no tracking cookies. The only third party that can
+   set cookies is the Google Maps embed, so maps stay as a "Show Map"
+   card until the visitor allows them. The choice is kept in
+   localStorage ("cavalli-consent"); Cookie Settings in the footer
+   (and on privacy.html) reopens the banner.
+   ============================================================ */
+(function () {
+  "use strict";
+  var KEY = "cavalli-consent";
+  function read() { try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) { return null; } }
+  function save(maps) {
+    try { localStorage.setItem(KEY, JSON.stringify({ v: 1, maps: maps, at: new Date().toISOString() })); } catch (e) {}
+  }
+
+  function loadMap(box) {
+    if (!box || box.querySelector("iframe")) return;
+    var f = document.createElement("iframe");
+    f.className = "map-embed";
+    f.title = box.getAttribute("data-map-title") || "Map";
+    f.loading = "lazy";
+    f.referrerPolicy = "no-referrer-when-downgrade";
+    f.src = box.getAttribute("data-map-src");
+    box.innerHTML = "";
+    box.classList.add("is-loaded");
+    box.appendChild(f);
+  }
+  function loadAllMaps() { document.querySelectorAll(".map-consent").forEach(loadMap); }
+
+  document.querySelectorAll(".map-consent [data-map-load]").forEach(function (b) {
+    b.addEventListener("click", function () { loadMap(b.closest(".map-consent")); });
+  });
+
+  var banner = null;
+  function closeBanner() { if (banner) { banner.remove(); banner = null; } }
+  function openBanner() {
+    if (banner) return;
+    banner = document.createElement("div");
+    banner.className = "cookie-banner";
+    banner.setAttribute("role", "dialog");
+    banner.setAttribute("aria-label", "Cookie choices");
+    banner.innerHTML =
+      '<p class="cookie-banner__text"><b>Your privacy.</b> We use only what the site needs to work, like your shopping bag. ' +
+      'Maps from Google may set cookies, so they load only if you allow them. <a href="privacy.html">Privacy &amp; Cookies</a></p>' +
+      '<div class="cookie-banner__actions">' +
+      '<button type="button" class="cookie-banner__btn" data-consent="essential">Essential Only</button>' +
+      '<button type="button" class="cookie-banner__btn is-primary" data-consent="all">Allow All</button>' +
+      '</div>';
+    banner.addEventListener("click", function (e) {
+      var b = e.target.closest("[data-consent]");
+      if (!b) return;
+      var all = b.getAttribute("data-consent") === "all";
+      save(all);
+      if (all) loadAllMaps();
+      closeBanner();
+    });
+    document.body.appendChild(banner);
+  }
+
+  document.querySelectorAll("[data-cookie-settings]").forEach(function (b) {
+    b.addEventListener("click", openBanner);
+  });
+
+  var c = read();
+  if (!c) openBanner();
+  else if (c.maps) loadAllMaps();
+})();
