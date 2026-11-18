@@ -17,9 +17,25 @@
   var CATALOG = {};
   try { CATALOG = JSON.parse(catalogEl ? catalogEl.textContent : "{}"); } catch (e) {}
 
+  // Bags saved before a catalog update can hold old photo paths, names or
+  // prices, so every read refreshes them from the current catalog.
+  function fresh(i) {
+    var p = CATALOG[i.slug];
+    var vals = i.variant ? i.variant.split(" / ") : [];
+    var price = p.price;
+    vals.forEach(function (v, k) {
+      var o = p.options[k];
+      var hit = o && o.values.find(function (x) { return x.v === v; });
+      if (hit && hit.p != null) price = hit.p;
+    });
+    i.img = p.card;
+    i.name = p.title;
+    i.price = price;
+    return i;
+  }
   function readBag() {
     try {
-      return (JSON.parse(localStorage.getItem(KEY)) || []).filter(function (i) { return CATALOG[i.slug]; });
+      return (JSON.parse(localStorage.getItem(KEY)) || []).filter(function (i) { return CATALOG[i.slug]; }).map(fresh);
     } catch (e) { return []; }
   }
   function writeBag(items) {
