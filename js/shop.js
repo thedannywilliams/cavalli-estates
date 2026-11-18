@@ -22,7 +22,7 @@
 
   var CONFIG = {
     enabled: false,
-    domain: "REPLACE_ME.myshopify.com",
+    domain: "cavalliestates.myshopify.com",
     storefrontAccessToken: "REPLACE_ME_STOREFRONT_TOKEN",
     apiVersion: "2026-07"
   };
