@@ -7,30 +7,34 @@
    1. Import shop-data/shopify-products.csv in Shopify
       (Products > Import). Handles and option names must stay as
       imported; they are how the site finds each product.
-   2. Shopify admin > Settings > Apps and sales channels > Develop
-      apps > create an app > configure Storefront API scopes
-      (unauthenticated_read_product_listings,
-      unauthenticated_write_checkouts) > install > copy the
-      Storefront API access token.
-   3. Fill in CONFIG below, set enabled: true, commit and push.
+   2. The store must be public (paid plan, password removed).
+      Products and carts then work through Shopify's tokenless
+      Storefront API, so no access token is needed.
+   3. Optional: a public Storefront token (Headless channel) raises
+      rate limits. Paste it into CONFIG to send it with requests.
 
-   The token is a public Storefront token (read products, create
-   carts); it is designed to live in browser code.
+   Live since 2026-11-18 on cavalliestates.myshopify.com.
    ============================================================ */
 (function () {
   "use strict";
 
   var CONFIG = {
-    enabled: false,
+    enabled: true,
     domain: "cavalliestates.myshopify.com",
-    storefrontAccessToken: "REPLACE_ME_STOREFRONT_TOKEN",
+    storefrontAccessToken: "", // optional; tokenless access works
     apiVersion: "2026-07"
   };
+
+  function headers() {
+    var h = { "Content-Type": "application/json" };
+    if (CONFIG.storefrontAccessToken) h["X-Shopify-Storefront-Access-Token"] = CONFIG.storefrontAccessToken;
+    return h;
+  }
 
   function gql(query, variables) {
     return fetch("https://" + CONFIG.domain + "/api/" + CONFIG.apiVersion + "/graphql.json", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "X-Shopify-Storefront-Access-Token": CONFIG.storefrontAccessToken },
+      headers: headers(),
       body: JSON.stringify({ query: query, variables: variables || {} })
     }).then(function (r) {
       if (!r.ok) throw new Error("Shopify " + r.status);
