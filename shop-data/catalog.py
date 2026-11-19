@@ -16,8 +16,8 @@ the price for that choice; otherwise the product's base price applies.
 
 COLLECTIONS = [
     ("dried", "Bouquets & Dried"),
-    ("sachets", "Sachets & Home"),
-    ("body", "Bath & Body"),
+    ("sachets", "Lavender Buds"),
+    ("body", "Spa & Wellness"),
     ("kitchen", "Kitchen"),
     ("gifts", "Gift Sets"),
     ("farm", "Farm & Garden"),
@@ -91,7 +91,7 @@ PRODUCTS = [
 
     # ---------------- Sachets & Home ----------------
     dict(
-        etsy="4391408727", handle="lavanoodle", collection="sachets", featured=True,
+        etsy="4391408727", handle="lavanoodle", collection="body", featured=True,
         title="The LavaNoodle", price=5.00, tag="Home",
         blurb="A lavender-filled fabric tube that stops drafts, freshens closets, and keeps insects away.",
         body=[
@@ -104,7 +104,7 @@ PRODUCTS = [
         ],
     ),
     dict(
-        etsy="4417876793", handle="estate-linen-mist", collection="sachets", featured=True,
+        etsy="4417876793", handle="estate-linen-mist", collection="body", featured=True,
         title="Estate Linen Mist", price=12.00, tag="Six blends",
         blurb="A natural room and fabric mist in six estate blends. 50 ml.",
         body=[
@@ -117,7 +117,7 @@ PRODUCTS = [
         ],
     ),
     dict(
-        etsy="4344128565", handle="lavender-soy-candle", collection="sachets",
+        etsy="4344128565", handle="lavender-soy-candle", collection="body",
         title="Lavender Soy Candle", price=20.00, tag="Hand-poured",
         blurb="Hand-poured soy wax scented with farm-grown lavender, in a reusable glass jar.",
         body=[

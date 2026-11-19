@@ -1165,3 +1165,9 @@ body.menu-open .site-header::before { opacity: 0; }
 .pay-marks--sm { justify-content: center; gap: .4rem; margin-top: .2rem; }
 .pay-marks--sm .pay-mark { width: 2.7rem; height: 1.75rem; border-radius: 4px; }
 .pay-marks--sm .pay-mark { padding: .28rem .4rem; }
+
+/* Header: tighter nav lettering so "Animals of Cavalli" fits beside the logo */
+@media (min-width: 1366px) and (max-width: 1499px) { .navlink { font-size: .76rem; letter-spacing: .08em; } }
+@media (min-width: 1500px) and (max-width: 1599px) { .navlink { font-size: .8rem; letter-spacing: .1em; } }
+@media (min-width: 1600px) and (max-width: 1799px) { .navlink { font-size: .82rem; letter-spacing: .08em; } }
+@media (min-width: 1800px) { .navlink { font-size: .9rem; letter-spacing: .1em; } }
