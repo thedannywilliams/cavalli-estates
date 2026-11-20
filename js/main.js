@@ -403,6 +403,7 @@
   var LIMIT = 8;
   document.querySelectorAll(".mosaic").forEach(function (m) {
     var figs = Array.prototype.slice.call(m.querySelectorAll("figure"));
+    if (m.hasAttribute("data-show-all")) return; // hand-arranged gallery: always show every photo
     if (figs.length <= LIMIT + 2) return;
     figs.forEach(function (f, i) { if (i >= LIMIT) f.classList.add("mosaic-hidden"); });
     var row = document.createElement("div");
