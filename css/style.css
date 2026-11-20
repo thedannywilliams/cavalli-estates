@@ -1201,3 +1201,15 @@ body.menu-open .site-header::before { opacity: 0; }
 .review-head__photo { margin: 0; overflow: hidden; }
 .review-head__photo img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
 @media (min-width: 860px) { .review-head--photo { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); } }
+
+/* Portrait gallery, four across: upright photos shown whole (3:4).
+   .big spans two columns and two rows, .wide spans two columns. */
+.mosaic--p4 { margin-top: clamp(.5rem,1vw,1rem); }
+.mosaic--p4 figure { aspect-ratio: 3 / 4; }
+.mosaic--p4 img, .mosaic--p4 .wide img { position: absolute; inset: 0; aspect-ratio: auto; }
+.mosaic--p4 .big, .mosaic--p4 .wide { grid-column: span 2; }
+.mosaic--p4 .wide { aspect-ratio: 3 / 2; }
+@media (min-width: 760px) {
+  .mosaic--p4 .big { grid-row: span 2; aspect-ratio: auto; }
+  .mosaic--p4 .wide { aspect-ratio: auto; }
+}
