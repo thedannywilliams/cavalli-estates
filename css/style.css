@@ -1195,3 +1195,9 @@ body.menu-open .site-header::before { opacity: 0; }
 
 /* Phone menu: one even rhythm, no divider gap before About Us */
 .nav-mobile .m-sep { display: none; }
+
+/* Shop reviews: harvest photo beside the heading (stacked on phones) */
+.review-head--photo { max-width: none; display: grid; gap: clamp(1.5rem, 4vw, 4rem); align-items: center; }
+.review-head__photo { margin: 0; overflow: hidden; }
+.review-head__photo img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+@media (min-width: 860px) { .review-head--photo { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); } }

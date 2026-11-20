@@ -10,7 +10,6 @@
 (function () {
   "use strict";
 
-  var ORDER_EMAIL = "cavalli.estates@gmail.com";
   var KEY = "cavalli-bag";
 
   var catalogEl = document.getElementById("shop-catalog");
@@ -327,15 +326,9 @@
       noteEl.textContent = "Secure checkout by Shopify. We accept all major credit and debit cards. Shipping and tax are calculated at checkout.";
       checkoutEl.href = "#";
     } else {
-      checkoutLabel.textContent = "Email Your Order";
-      noteEl.textContent = "Email your order and our team will confirm availability, payment, and pickup or shipping.";
-      var lines = items.map(function (i) {
-        return i.qty + " x " + i.name + (i.variant ? " (" + i.variant + ")" : "") + " - " + money(i.price * i.qty);
-      });
-      var body = "Hello Cavalli Estates,\r\n\r\nI would like to place an order:\r\n\r\n" + lines.join("\r\n") +
-        "\r\n\r\nSubtotal: " + money(total) + "\r\n\r\nName:\r\nPhone:\r\nPickup or shipping:\r\n\r\nThank you!";
-      checkoutEl.href = "mailto:" + ORDER_EMAIL + "?subject=" + encodeURIComponent("Cavalli Lavender Shop Order") +
-        "&body=" + encodeURIComponent(body);
+      checkoutLabel.textContent = "Contact Us to Order";
+      noteEl.textContent = "Send us your order and our team will confirm availability, payment, and pickup or shipping.";
+      checkoutEl.href = "contact.html";
     }
     checkoutEl.classList.toggle("is-disabled", !items.length);
     renderBadge();
