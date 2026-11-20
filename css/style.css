@@ -1171,3 +1171,8 @@ body.menu-open .site-header::before { opacity: 0; }
 @media (min-width: 1500px) and (max-width: 1599px) { .navlink { font-size: .8rem; letter-spacing: .1em; } }
 @media (min-width: 1600px) and (max-width: 1799px) { .navlink { font-size: .82rem; letter-spacing: .08em; } }
 @media (min-width: 1800px) { .navlink { font-size: .9rem; letter-spacing: .1em; } }
+
+/* Portrait gallery: upright photos kept upright (2:3), five across on desktop */
+.mosaic--portrait { margin-top: clamp(.5rem,1vw,1rem); }
+.mosaic--portrait img { aspect-ratio: 2 / 3; }
+@media (min-width: 760px) { .mosaic--portrait { grid-template-columns: repeat(5, 1fr); } }
