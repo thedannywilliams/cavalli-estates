@@ -1176,3 +1176,6 @@ body.menu-open .site-header::before { opacity: 0; }
 .mosaic--portrait { margin-top: clamp(.5rem,1vw,1rem); }
 .mosaic--portrait img { aspect-ratio: 2 / 3; }
 @media (min-width: 760px) { .mosaic--portrait { grid-template-columns: repeat(5, 1fr); } }
+
+/* Gallery lead photo: full width on phones so the two-column grid below it stays even */
+@media (max-width: 759px) { .mosaic .lead { grid-column: span 2; } .mosaic .lead img { aspect-ratio: 3 / 2; } }
