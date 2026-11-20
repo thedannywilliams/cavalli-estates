@@ -812,7 +812,7 @@ body[data-page="lavender"] .mosaic img, body[data-page="lavender"] .feature__med
 .hero__media video { width: 100%; height: 100%; object-fit: cover; display: block; }
 @media (prefers-reduced-motion: reduce) {
   .hero__media video { display: none; }
-  .hero__media { background: url("../assets/video/cavalli-hero-poster.jpg") center / cover no-repeat; }
+  .hero__media { background: url("../assets/video/cavalli-hero2-poster.jpg") center / cover no-repeat; }
 }
 
 /* Booking bar sits directly under the hero buttons, grouped with the headline */
