@@ -342,7 +342,10 @@
     idx = (i + items.length) % items.length;
     boxImg.src = items[idx].currentSrc || items[idx].src;
     boxImg.alt = items[idx].alt || "";
-    boxCap.textContent = items[idx].alt || "";
+    // Galleries marked data-no-captions open without the line of text under the photo.
+    var quiet = !!items[idx].closest("[data-no-captions]");
+    boxCap.textContent = quiet ? "" : (items[idx].alt || "");
+    boxCap.hidden = quiet;
   }
   function open(i) {
     collect();
