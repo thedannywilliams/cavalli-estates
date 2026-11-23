@@ -2,6 +2,17 @@
 [build]
   publish = "."
 
+# ---------- client preview links (El Valle Marketing) ----------
+# Production (main) has no build step. Branch deploys and Deploy Previews
+# write a _headers file so preview links stay out of search results.
+# The branch named "cavalli" is the client preview, served at
+# cavalli.preview.<agency domain> once the Netlify domain step is done.
+[context.branch-deploy]
+  command = "printf '/*\\n  X-Robots-Tag: noindex, nofollow\\n' > _headers"
+
+[context.deploy-preview]
+  command = "printf '/*\\n  X-Robots-Tag: noindex, nofollow\\n' > _headers"
+
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"

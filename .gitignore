@@ -5,3 +5,6 @@
 # Raw source footage (compressed web versions live alongside)
 assets/video/CAVALLI ESTATES HERO OPENING PAGE.mp4
 assets/video/LAVENDER HERO .mp4
+
+# Generated on preview deploys only (see netlify.toml)
+_headers
