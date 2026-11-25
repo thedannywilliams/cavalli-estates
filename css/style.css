@@ -1213,3 +1213,20 @@ body.menu-open .site-header::before { opacity: 0; }
   .mosaic--p4 .big { grid-row: span 2; aspect-ratio: auto; }
   .mosaic--p4 .wide { aspect-ratio: auto; }
 }
+
+/* Equestrian: Meet the Trainers. One .trainer block per person; name and facts beside the bio on desktop. */
+.trainer { display: grid; gap: var(--space-m); padding-top: var(--space-l); border-top: 1px solid var(--hair); }
+.trainer + .trainer { margin-top: var(--space-l); }
+.trainer__head { text-align: center; }
+.trainer__name { font-size: var(--step-3); margin-top: var(--space-xs); }
+.trainer__facts { list-style: none; padding: 0; margin: var(--space-m) 0 0; display: grid; gap: .7rem; font-family: var(--sans); font-size: var(--step--1); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-mute); line-height: 1.5; }
+.trainer__head .cta-row { margin-top: var(--space-m); justify-content: center; }
+.trainer__bio { max-width: 44rem; margin-inline: auto; color: var(--ink-soft); }
+.trainer__bio p + p { margin-top: var(--space-s); }
+.trainer__bio .body-lead { color: var(--char); }
+@media (min-width: 900px) {
+  .trainer { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2.5rem, 6vw, 6rem); align-items: start; }
+  .trainer__head { text-align: left; position: sticky; top: 7rem; }
+  .trainer__head .cta-row { justify-content: flex-start; }
+  .trainer__bio { margin-inline: 0; }
+}
