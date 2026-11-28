@@ -143,10 +143,13 @@ body.menu-open .c-menu { opacity: 1; visibility: visible; transition: opacity .5
 .c-welcome__photos .big img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
 .c-welcome__photos .small { grid-column: 1 / 7; margin-top: -18%; }
 .c-welcome__photos .small img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; box-shadow: 0 0 0 .7rem var(--cream); }
+.c-welcome__photos .third { grid-column: 7 / -1; align-self: start; margin-left: 1.2rem; }
+.c-welcome__photos .third img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
 @media (min-width: 960px) {
   .c-welcome { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(3rem, 6vw, 7rem); align-items: start; }
   .c-welcome__text { padding-top: clamp(1rem, 4vw, 5rem); }
   .c-welcome__photos .small { grid-column: 1 / 6; margin-top: -22%; }
+  .c-welcome__photos .third { grid-column: 6 / -1; margin-left: 1.6rem; }
 }
 
 /* Full-bleed line */
