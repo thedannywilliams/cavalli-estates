@@ -87,9 +87,6 @@ body.menu-open .c-menu { opacity: 1; visibility: visible; transition: opacity .5
 .c-hero__line .display { color: var(--cream); text-shadow: 0 1px 40px rgba(20,15,25,.35); }
 .c-hero__line span { display: inline-block; opacity: 0; filter: blur(8px); transform: translateY(.3em); animation: wordin 1.4s var(--ease) forwards; }
 @keyframes wordin { to { opacity: 1; filter: blur(0); transform: none; } }
-.c-scroll { position: absolute; z-index: 2; left: 50%; bottom: 2.2rem; transform: translateX(-50%); display: grid; justify-items: center; gap: .9rem; font-weight: 500; font-size: .62rem; letter-spacing: .26em; text-transform: uppercase; }
-.c-scroll::after { content: ""; width: 1px; height: 3.2rem; background: linear-gradient(var(--cream), transparent); animation: drip 2.4s var(--ease) infinite; transform-origin: top; }
-@keyframes drip { 0% { transform: scaleY(0); } 55% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
 
 /* ---- Availability strip -------------------------------------- */
 .c-avail { border-bottom: 1px solid var(--hair); }
@@ -116,7 +113,7 @@ body.menu-open .c-menu { opacity: 1; visibility: visible; transition: opacity .5
 .reveal { opacity: 0; transform: translateY(34px); transition: opacity 1.3s var(--ease), transform 1.3s var(--ease); }
 .reveal.in { opacity: 1; transform: none; }
 .reveal.d1 { transition-delay: .15s; } .reveal.d2 { transition-delay: .3s; }
-@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } .c-hero__line span { animation: none; opacity: 1; filter: none; transform: none; } .c-scroll::after { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } .c-hero__line span { animation: none; opacity: 1; filter: none; transform: none; } }
 .sprig { position: absolute; z-index: 0; color: var(--plum); opacity: .07; pointer-events: none; }
 
 /* Welcome: statement left, two photos of different sizes right */
