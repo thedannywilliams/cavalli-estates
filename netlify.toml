@@ -19,6 +19,18 @@
     X-Permitted-Cross-Domain-Policies = "none"
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self' blob: data:; frame-src https://www.google.com; connect-src 'self' https://*.myshopify.com; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
 
+# ---------- hero films: let phones and browsers keep them for a week ----------
+# A replaced film always gets a new file name, so a stored copy is never stale.
+[[headers]]
+  for = "/assets/video/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/v2/assets/video/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
 [[redirects]]  # security: hide non-web file
   from = "/QUESTIONS.md"
   to = "/404.html"

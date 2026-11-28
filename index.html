@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
-<link rel="preload" as="image" href="assets/video/cavalli-hero2-poster.jpg" />
+<link rel="preload" as="image" href="assets/video/cavalli-hero2-poster.jpg" fetchpriority="high" />
 <link rel="stylesheet" href="css/style.css" />
 
 <script type="application/ld+json">
@@ -96,6 +96,7 @@
 <section class="hero">
   <div class="hero__media">
     <video autoplay muted loop playsinline preload="auto" poster="assets/video/cavalli-hero2-poster.jpg" aria-label="Life at Cavalli Estates: aerial views of the estate, the lavender harvest, bike rides on the trails, poolside afternoons, wine pours, and gatherings by the fire beneath the Edna Valley hills">
+      <source src="assets/video/cavalli-hero2-phone.mp4" type="video/mp4" media="(max-width: 600px) and (orientation: portrait)" />
       <source src="assets/video/cavalli-hero2-720.mp4" type="video/mp4" media="(max-width: 900px)" />
       <source src="assets/video/cavalli-hero2-1080.mp4" type="video/mp4" />
     </video>
