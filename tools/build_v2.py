@@ -58,9 +58,9 @@ HEADER = '''<!-- Header: menu, logo, two actions -->
     <div>
       <h3>The Farm</h3>
       <ul>
-        <li><a href="lavender.html">The Lavender Farm</a></li>
-        <li><a href="sanctuary.html">Meet the Herd</a></li>
         <li><a href="equestrian.html">Equestrian</a></li>
+        <li><a href="sanctuary.html">Meet the Herd</a></li>
+        <li><a href="lavender.html">The Lavender Farm</a></li>
         <li><a href="shop.html">Shop</a></li>
       </ul>
     </div>
@@ -94,7 +94,7 @@ FOOTER = '''<footer class="c-foot">
     <a href="index.html" aria-label="Cavalli Estates home"><span class="c-foot__logo" aria-hidden="true"></span></a>
     <div class="c-foot__cols">
       <div><h3>Stay</h3><ul><li><a href="stays.html">The Residences</a></li><li><a href="stays-ranchhouse.html">The Ranchhouse</a></li><li><a href="stays-villa.html">The Villa</a></li><li><a href="stays-vineyard-house.html">The Vineyard House</a></li></ul></div>
-      <div><h3>The Estate</h3><ul><li><a href="events.html">Weddings &amp; Events</a></li><li><a href="lavender.html">The Lavender Farm</a></li><li><a href="sanctuary.html">Meet the Herd</a></li><li><a href="equestrian.html">Equestrian</a></li></ul></div>
+      <div><h3>The Estate</h3><ul><li><a href="events.html">Weddings &amp; Events</a></li><li><a href="equestrian.html">Equestrian</a></li><li><a href="sanctuary.html">Meet the Herd</a></li><li><a href="lavender.html">The Lavender Farm</a></li></ul></div>
       <div><h3>Visit</h3><ul><li><a href="experiences.html">Experiences</a></li><li><a href="tasting-room.html">Tasting Room</a></li><li><a href="restaurant.html">The Restaurant</a></li><li><a href="shop.html">Shop</a></li></ul></div>
       <div><h3>Contact</h3><ul><li><a href="tel:+18052421154">805 · 242 · 1154</a></li><li><a href="https://maps.google.com/?q=445+Green+Gate+Road,+San+Luis+Obispo,+CA+93401" target="_blank" rel="noopener">445 Green Gate Road<br>San Luis Obispo, CA 93401</a></li><li><a href="about.html">About Us</a></li></ul></div>
     </div>
@@ -179,9 +179,9 @@ EXPLORE = '''<!-- Where will the day take you -->
       <p>Fishing, bridle trails, treehouse dining, and picnics in the lavender.</p>
     </article>
     <article class="c-card reveal d1">
-      <a class="ph" href="equestrian.html"><img src="assets/img/equestrian/center-breezeway.jpg" alt="The shaded stable breezeway at golden hour, stall doors in warm redwood" loading="lazy" /></a>
-      <h3>Equestrian</h3>
-      <p>A training center for horse and rider, and a gentle retirement sanctuary.</p>
+      <a class="ph" href="shop.html"><img src="assets/img/lavender/lavender-field-mountains-hero.jpg" alt="Cavalli Estates lavender fields in full bloom beneath the San Luis Obispo mountains" loading="lazy" /></a>
+      <h3>The Lavender Shop</h3>
+      <p>Oils, soaps, sachets, and gifts, made in small batches with lavender from the estate.</p>
     </article>
     <article class="c-card reveal">
       <a class="ph" href="tasting-room.html"><img src="assets/img/tasting/tasting-patio-hero.jpg" alt="Lounge chairs on the tasting patio beneath the oaks, looking across the vineyards" loading="lazy" /></a>
