@@ -82,11 +82,15 @@ body.menu-open .c-menu { opacity: 1; visibility: visible; transition: opacity .5
 /* ---- Hero ---------------------------------------------------- */
 .c-hero { position: relative; height: 100svh; min-height: 34rem; display: grid; place-items: center; text-align: center; color: var(--cream); overflow: hidden; background: #1B1815 url("../assets/video/cavalli-hero2-poster.jpg") center / cover no-repeat; }
 .c-hero video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.c-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(20,17,14,.5) 0%, rgba(20,17,14,.18) 30%, rgba(20,17,14,.26) 65%, rgba(20,17,14,.6) 100%); }
-.c-hero__line { position: relative; z-index: 2; padding-inline: 1.5rem; margin-top: 3rem; }
+/* A light scrim stays behind the logo and menu. The heavier wash sits behind the
+   opening line and lifts with it, so the film plays clean after a few seconds. */
+.c-hero::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(to bottom, rgba(20,17,14,.42) 0%, rgba(20,17,14,0) 26%); }
+.c-hero::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(to bottom, rgba(20,17,14,.14) 0%, rgba(20,17,14,.18) 30%, rgba(20,17,14,.26) 65%, rgba(20,17,14,.6) 100%); animation: herolift 1.8s ease 6s forwards; }
+.c-hero__line { position: relative; z-index: 2; padding-inline: 1.5rem; margin-top: 3rem; animation: herolift 1.8s ease 6s forwards; }
 .c-hero__line .display { color: var(--cream); text-shadow: 0 1px 40px rgba(18,15,12,.35); }
 .c-hero__line span { display: inline-block; opacity: 0; filter: blur(8px); transform: translateY(.3em); animation: wordin 1.4s var(--ease) forwards; }
 @keyframes wordin { to { opacity: 1; filter: blur(0); transform: none; } }
+@keyframes herolift { to { opacity: 0; } }
 
 /* ---- Availability card ---------------------------------------
    An inset, bordered card below the hero (never edge to edge). */
