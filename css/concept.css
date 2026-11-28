@@ -4,14 +4,14 @@
    load this file.
    ============================================================ */
 :root {
-  --cream: #FBF7EC;
-  --cream-2: #F3EDDD;
-  --plum: #3D3149;
-  --plum-deep: #2C2336;
-  --ink: #3A3340;
-  --ink-soft: #5F5766;
+  --cream: #FAF7F0;
+  --cream-2: #F3EEE3;
+  --plum: #24211C;   /* the site's warm charcoal (variable name kept from the first draft) */
+  --plum-deep: #1B1815;
+  --ink: #24211C;
+  --ink-soft: #55503F;
   --gold: #9C7C46;
-  --gold-soft: #CDB07C;
+  --gold-soft: #C6A874;
   --hair: color-mix(in srgb, var(--plum) 16%, transparent);
   --hair-light: color-mix(in srgb, var(--cream) 26%, transparent);
   --serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
@@ -80,11 +80,11 @@ body.menu-open .c-menu { opacity: 1; visibility: visible; transition: opacity .5
 }
 
 /* ---- Hero ---------------------------------------------------- */
-.c-hero { position: relative; height: 100svh; min-height: 34rem; display: grid; place-items: center; text-align: center; color: var(--cream); overflow: hidden; background: #1c1820 url("../assets/video/cavalli-hero2-poster.jpg") center / cover no-repeat; }
+.c-hero { position: relative; height: 100svh; min-height: 34rem; display: grid; place-items: center; text-align: center; color: var(--cream); overflow: hidden; background: #1B1815 url("../assets/video/cavalli-hero2-poster.jpg") center / cover no-repeat; }
 .c-hero video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.c-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(24,19,29,.5) 0%, rgba(24,19,29,.18) 30%, rgba(24,19,29,.26) 65%, rgba(24,19,29,.6) 100%); }
+.c-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(20,17,14,.5) 0%, rgba(20,17,14,.18) 30%, rgba(20,17,14,.26) 65%, rgba(20,17,14,.6) 100%); }
 .c-hero__line { position: relative; z-index: 2; padding-inline: 1.5rem; margin-top: 3rem; }
-.c-hero__line .display { color: var(--cream); text-shadow: 0 1px 40px rgba(20,15,25,.35); }
+.c-hero__line .display { color: var(--cream); text-shadow: 0 1px 40px rgba(18,15,12,.35); }
 .c-hero__line span { display: inline-block; opacity: 0; filter: blur(8px); transform: translateY(.3em); animation: wordin 1.4s var(--ease) forwards; }
 @keyframes wordin { to { opacity: 1; filter: blur(0); transform: none; } }
 
@@ -135,7 +135,7 @@ body.menu-open .c-menu { opacity: 1; visibility: visible; transition: opacity .5
 /* Full-bleed line */
 .c-band { position: relative; min-height: min(86svh, 46rem); display: grid; align-items: end; color: var(--cream); padding: clamp(3rem, 7vw, 7rem) var(--gutter); overflow: hidden; }
 .c-band > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.c-band::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(24,19,29,.72), rgba(24,19,29,.08) 65%); }
+.c-band::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(20,17,14,.72), rgba(20,17,14,.08) 65%); }
 .c-band__text { position: relative; z-index: 1; max-width: 46rem; }
 .c-band .display { color: var(--cream); margin-top: 1.2rem; }
 .c-band .label { color: var(--gold-soft); }
