@@ -47,3 +47,27 @@
   to = "/404.html"
   status = 404
   force = true
+
+# ---------- v2 preview (the "quiet luxury" revamp, built by tools/build_v2.py) ----------
+# v2 pages use the same relative paths as the originals, so these three
+# rewrites serve the shared folders under /v2/ without copying them.
+[[redirects]]
+  from = "/v2/assets/*"
+  to = "/assets/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/v2/css/*"
+  to = "/css/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/v2/js/*"
+  to = "/js/:splat"
+  status = 200
+
+[[redirects]]  # security: build tools stay in the repo, not on the web
+  from = "/tools/*"
+  to = "/404.html"
+  status = 404
+  force = true
