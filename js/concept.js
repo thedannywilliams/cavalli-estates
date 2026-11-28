@@ -2,9 +2,19 @@
 (function () {
   "use strict";
   var header = document.querySelector(".c-header");
-  function onScroll() { header.classList.toggle("scrolled", window.scrollY > window.innerHeight * 0.7); }
-  onScroll();
+  var heroText = document.querySelector(".c-hero__line");
+  var limit = 120, tall = 0;
+  // Solid header just before the hero's words would slide up under the logo.
+  function measure() {
+    if (!header.classList.contains("scrolled")) tall = header.offsetHeight;
+    limit = Math.max(24, heroText.getBoundingClientRect().top + window.scrollY - tall - 48);
+    onScroll();
+  }
+  function onScroll() { header.classList.toggle("scrolled", window.scrollY > limit); }
+  measure();
   window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", measure);
+  window.addEventListener("load", measure);
 
   var btn = document.querySelector(".c-menu-btn");
   function setMenu(open) {
@@ -27,5 +37,11 @@
   }
 
   var today = new Date().toISOString().slice(0, 10);
-  document.querySelectorAll('.c-avail input[type="date"]').forEach(function (i) { i.min = today; });
+  document.querySelectorAll('.c-avail input[type="date"]').forEach(function (i) {
+    i.min = today;
+    function mark() { i.parentElement.classList.toggle("has-value", !!i.value); }
+    i.addEventListener("input", mark);
+    i.addEventListener("change", mark);
+    mark();
+  });
 })();

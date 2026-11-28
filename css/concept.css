@@ -88,24 +88,33 @@ body.menu-open .c-menu { opacity: 1; visibility: visible; transition: opacity .5
 .c-hero__line span { display: inline-block; opacity: 0; filter: blur(8px); transform: translateY(.3em); animation: wordin 1.4s var(--ease) forwards; }
 @keyframes wordin { to { opacity: 1; filter: blur(0); transform: none; } }
 
-/* ---- Availability strip -------------------------------------- */
-.c-avail { border-bottom: 1px solid var(--hair); }
+/* ---- Availability card ---------------------------------------
+   An inset, bordered card below the hero (never edge to edge). */
+.c-avail { margin: clamp(1.25rem, 3vw, 2.75rem) var(--gutter) 0; border: 1px solid color-mix(in srgb, var(--plum) 26%, transparent); background: color-mix(in srgb, #fff 60%, var(--cream)); }
 .c-avail form { display: grid; grid-template-columns: 1fr 1fr; }
-.c-avail__field { display: grid; gap: .3rem; padding: 1.15rem var(--gutter); border-bottom: 1px solid var(--hair); }
-.c-avail__field:nth-child(odd) { border-right: 1px solid var(--hair); }
-.c-avail__field.is-wide { grid-column: 1 / -1; border-right: 0; }
+.c-avail__field { position: relative; display: grid; gap: .3rem; padding: 1.1rem 1.25rem; border-bottom: 1px solid var(--hair); min-width: 0; }
+.c-avail__field.is-arrive { border-right: 1px solid var(--hair); }
+.c-avail__field.is-wide { grid-column: 1 / -1; }
 .c-avail label { font-weight: 500; font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
-.c-avail input, .c-avail select { font: inherit; font-size: 1rem; color: var(--plum); background: transparent; border: 0; padding: 0; width: 100%; min-height: 1.6rem; }
+.c-avail input, .c-avail select { font: inherit; font-size: 1rem; color: var(--plum); background: transparent; border: 0; padding: 0; width: 100%; min-height: 1.7rem; -webkit-appearance: none; appearance: none; }
+.c-avail select { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%2324211C' stroke-width='1.3'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E") right center / 12px no-repeat; padding-right: 1.4rem; }
 .c-avail input:focus, .c-avail select:focus { outline: none; }
-.c-avail button { grid-column: 1 / -1; padding: 1.3rem 2rem; background: var(--plum); color: var(--cream); font-weight: 500; font-size: .68rem; letter-spacing: .22em; text-transform: uppercase; transition: background .3s; }
+/* Phones show an empty date box with no hint, so the hint is our own text. */
+.c-avail__hint { position: absolute; left: 1.25rem; bottom: 1.1rem; line-height: 1.7rem; font-size: 1rem; color: var(--ink-soft); pointer-events: none; }
+.c-avail__field:not(.has-value) input[type="date"] { color: transparent; }
+.c-avail__field:not(.has-value) input[type="date"]:focus { color: var(--plum); }
+.c-avail__field.has-value .c-avail__hint, .c-avail__field:focus-within .c-avail__hint { display: none; }
+.c-avail button { grid-column: 1 / -1; padding: 1.25rem 2rem; background: var(--plum); color: var(--cream); font-weight: 500; font-size: .68rem; letter-spacing: .22em; text-transform: uppercase; transition: background .3s; }
 .c-avail button:hover { background: var(--plum-deep); }
+.c-avail__intro { display: none; font-family: var(--serif); font-style: italic; font-size: 1.35rem; color: var(--plum); }
 @media (min-width: 860px) {
+  .c-avail { max-width: 76rem; margin-inline: auto; width: calc(100% - 2 * var(--gutter)); }
   .c-avail form { grid-template-columns: 1.1fr 1fr 1fr 1fr auto; align-items: stretch; }
-  .c-avail__field, .c-avail__field.is-wide { grid-column: auto; border-bottom: 0; border-right: 1px solid var(--hair); padding: 1.3rem clamp(1.2rem, 2.2vw, 2.4rem); }
-  .c-avail__intro { display: flex !important; align-items: center; }
+  .c-avail__field, .c-avail__field.is-wide { grid-column: auto; border-bottom: 0; border-right: 1px solid var(--hair); padding: 1.3rem clamp(1.2rem, 2.2vw, 2.2rem); }
+  .c-avail__hint { left: clamp(1.2rem, 2.2vw, 2.2rem); bottom: 1.3rem; }
+  .c-avail__intro { display: flex; align-items: center; }
   .c-avail button { grid-column: auto; padding-inline: clamp(1.6rem, 3vw, 3.2rem); }
 }
-.c-avail__intro { display: none; font-family: var(--serif); font-style: italic; font-size: 1.35rem; color: var(--plum); padding-left: var(--gutter) !important; }
 
 /* ---- Sections ------------------------------------------------ */
 .c-sec { position: relative; padding: clamp(4.5rem, 3rem + 7vw, 10rem) var(--gutter); overflow: hidden; }
